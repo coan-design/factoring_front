@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 7px; border-radius: 5px; font-size: 12px; font-weight: 600; white-space: nowrap; background: {{ bg }}; color: {{ fg }}; border: 1px solid {{ border }};">
+  <div style="width: 13px; height: 13px; flex-shrink: 0;" dangerouslySetInnerHTML="{{ iconHtml }}"></div>
+  <span>{{ label }}</span>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:140,&quot;height&quot;:28},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Em andamento&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;tone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;info&quot;,&quot;options&quot;:[&quot;success&quot;,&quot;warning&quot;,&quot;danger&quot;,&quot;info&quot;,&quot;neutral&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const tone = this.props.tone || 'neutral';
+    const map = {
+      success: { bg: '#EAF3EA', fg: '#265E30', border: '#CFE3CF', path: '<path d="M4 12l5 5L20 6"/>' },
+      warning: { bg: '#FBF0DF', fg: '#8A5A15', border: '#F0DCB8', path: '<circle cx="12" cy="12" r="8.5"/><path d="M12 8v5"/><circle cx="12" cy="15.5" r="0.6" fill="currentColor"/>' },
+      danger:  { bg: '#F8E7E5', fg: '#A8291F', border: '#EFCAC6', path: '<circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/>' },
+      info:    { bg: '#E2EEEE', fg: '#1F6F72', border: '#C6DEDE', path: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><circle cx="12" cy="8" r="0.6" fill="currentColor"/>' },
+      neutral: { bg: '#EDEFEE', fg: '#4B5453', border: '#DDE2E1', path: '<circle cx="12" cy="12" r="3.2"/>' },
+    };
+    const t = map[tone] || map.neutral;
+    return {
+      bg: t.bg, fg: t.fg, border: t.border,
+      label: this.props.label || '',
+      iconHtml: { __html: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.path}</svg>` },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

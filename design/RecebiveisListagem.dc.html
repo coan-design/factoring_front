@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    select, input { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="recebiveis" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;">Início / Recebíveis</div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Recebíveis</div>
+      </div>
+      <button style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Novo recebível
+      </button>
+    </div>
+
+    <div style="padding: 32px 40px;">
+
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+        <div style="flex: 1; max-width: 340px; position: relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Buscar por cliente, número ou nota fiscal" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
+        </div>
+        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
+          <option>Todos os tipos</option>
+          <option>Cheque</option>
+          <option>Duplicata</option>
+        </select>
+        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
+          <option>Todos os status</option>
+          <option>Pendente</option>
+          <option>Vencido</option>
+          <option>Pago</option>
+          <option>Cedido</option>
+        </select>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #FAFBFA;">
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Tipo</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Cliente / Sacado</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Número</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Vencimento</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Valor</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ items }}" as="r" hint-placeholder-count="8">
+              <tr style="border-bottom: 1px solid #EEF0EF; background: {{ r.rowBg }};" style-hover="background: #F7EDEC;">
+                <td style="padding: 13px 20px; font-size: 13px; color: #4B5453;">{{ r.type }}</td>
+                <td style="padding: 13px 20px; font-size: 13.5px; font-weight: 500;">{{ r.client }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13px; color: #4B5453; font-family: 'IBM Plex Mono', monospace;">{{ r.ref }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; font-weight: {{ r.dueWeight }}; color: {{ r.dueColor }};">{{ r.due }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; font-weight: 600; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ r.value }}</td>
+                <td style="padding: 13px 20px;">
+                  <dc-import name="StatusBadge" label="{{ r.statusLabel }}" tone="{{ r.statusTone }}" hint-size="90px,26px"></dc-import>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const raw = [
+      { type: 'Cheque', client: 'Mercado Bela Vista', ref: '000452', due: '10/07/2026', value: 'R$ 9.750,00', status: 'Vencido' },
+      { type: 'Duplicata', client: 'Fecal Distribuidora Ltda.', ref: 'DP-88213', due: '22/07/2026', value: 'R$ 18.400,00', status: 'Pendente' },
+      { type: 'Cheque', client: 'Auto Peças Nordeste Ltda.', ref: '000478', due: '25/07/2026', value: 'R$ 4.300,00', status: 'Pendente' },
+      { type: 'Duplicata', client: 'Supermix Alimentos', ref: 'DP-88190', due: '30/06/2026', value: 'R$ 24.100,00', status: 'Cedido' },
+      { type: 'Cheque', client: 'Metalúrgica Vitória S.A.', ref: '000501', due: '05/07/2026', value: 'R$ 12.900,00', status: 'Vencido' },
+      { type: 'Duplicata', client: 'Têxtil Bom Retiro Ltda.', ref: 'DP-88240', due: '02/08/2026', value: 'R$ 7.650,00', status: 'Pendente' },
+      { type: 'Cheque', client: 'Distribuidora Alvorada', ref: '000512', due: '08/08/2026', value: 'R$ 15.200,00', status: 'Pago' },
+      { type: 'Duplicata', client: 'Comércio Rio Bonito ME', ref: 'DP-88255', due: '28/06/2026', value: 'R$ 5.980,00', status: 'Vencido' },
+    ];
+    const toneMap = { Pendente: 'info', Vencido: 'danger', Pago: 'success', Cedido: 'neutral' };
+    const items = raw.map(r => ({
+      ...r,
+      statusLabel: r.status,
+      statusTone: toneMap[r.status],
+      rowBg: r.status === 'Vencido' ? '#FBF1F0' : 'transparent',
+      dueColor: r.status === 'Vencido' ? '#A8291F' : '#4B5453',
+      dueWeight: r.status === 'Vencido' ? 700 : 400,
+    }));
+    return { items };
+  }
+}
+
+</script>
+</body>
+</html>

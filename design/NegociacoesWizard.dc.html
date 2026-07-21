@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    input, textarea { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="negociacoes" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto; display: flex; flex-direction: column;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white;">
+      <div style="font-size: 12px; color: #6B7473;">Início / Negociações / Nova negociação</div>
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Nova negociação</div>
+    </div>
+
+    <div style="padding: 24px 40px 0; background: white; border-bottom: 1px solid #E2E6E5;">
+      <div style="display: flex; gap: 4px; padding-bottom: 20px;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+          <div style="flex: 1; position: relative;">
+            <div style="height: 6px; border-radius: 3px; background: {{ s.barColor }};"></div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 10px;">
+              <div style="width: 18px; height: 18px; background: {{ s.dotColor }}; position: relative; flex-shrink: 0; clip-path: polygon(0 0, 100% 0, 100% 65%, 65% 100%, 0 100%); display: flex; align-items: center; justify-content: center;">
+                <sc-if value="{{ s.done }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></sc-if>
+                <sc-if value="{{ s.notDone }}"><span style="font-size: 10.5px; font-weight: 700; color: {{ s.numColor }};">{{ s.num }}</span></sc-if>
+              </div>
+              <div style="font-size: 12.5px; font-weight: 600; color: {{ s.labelColor }};">{{ s.label }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex: 1; padding: 32px 40px; padding-bottom: 100px;">
+
+      <sc-if value="{{ isStep1 }}">
+        <div style="max-width: 620px;">
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 18px;">Identificação e cliente</div>
+
+          <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 22px; margin-bottom: 20px;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Número da negociação</label>
+                <input value="{{ numero }}" onChange="{{ setNumero }}" placeholder="Ex: NG-2026-0342" class="tabnum" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+              </div>
+              <div>
+                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Título da negociação</label>
+                <input value="{{ titulo }}" onChange="{{ setTitulo }}" placeholder="Ex: Cessão de carteira julho — Fecal" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+              </div>
+              <div>
+                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Descrição</label>
+                <textarea value="{{ descricao }}" onChange="{{ setDescricao }}" placeholder="Contexto da negociação, observações internas" rows="3" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; resize: vertical;"></textarea>
+              </div>
+              <div>
+                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Forma de pagamento</label>
+                <select value="{{ formaPagamento }}" onChange="{{ setFormaPagamento }}" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; font-family: inherit;">
+                  <option value="PIX">PIX</option>
+                  <option value="TED">TED</option>
+                  <option value="BOLETO">Boleto</option>
+                  <option value="DINHEIRO">Dinheiro</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 12.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">Cliente</div>
+          <div style="position: relative; margin-bottom: 16px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input placeholder="Buscar cliente" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; font-family: inherit;" />
+          </div>
+          <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
+            <sc-for list="{{ clientOptions }}" as="c" hint-placeholder-count="4">
+              <div onClick="{{ c.onClick }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid #EEF0EF; cursor: pointer; background: {{ c.bg }};">
+                <div>
+                  <div style="font-size: 13.5px; font-weight: 600;">{{ c.name }}</div>
+                  <div style="font-size: 12px; color: #6B7473; margin-top: 2px;">{{ c.doc }} · {{ c.available }} disponíveis</div>
+                </div>
+                <sc-if value="{{ c.selected }}"><div style="width: 20px; height: 20px; border-radius: 50%; background: #1F6F72; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg></div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}">
+        <div>
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">Selecione os recebíveis e empréstimos</div>
+          <div style="font-size: 13px; color: #6B7473; margin-bottom: 18px;">Cliente: {{ selectedClientName }} · empréstimos entram inteiros, com todas as parcelas (pagas e pendentes)</div>
+          <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #FAFBFA;">
+                  <th style="width: 44px; padding: 10px 18px; border-bottom: 1px solid #E2E6E5;"></th>
+                  <th style="text-align: left; padding: 10px 18px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Item</th>
+                  <th style="text-align: left; padding: 10px 18px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Detalhe</th>
+                  <th style="text-align: right; padding: 10px 18px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Valor bruto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ items }}" as="it" hint-placeholder-count="5">
+                  <tr onClick="{{ it.toggle }}" style="border-bottom: 1px solid #EEF0EF; cursor: pointer; background: {{ it.bg }}; vertical-align: top;" style-hover="background: #FAFBFA;">
+                    <td style="padding: 13px 18px;">
+                      <div style="width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid {{ it.checkBorder }}; background: {{ it.checkBg }}; display: flex; align-items: center; justify-content: center;">
+                        <sc-if value="{{ it.checked }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></sc-if>
+                      </div>
+                    </td>
+                    <td style="padding: 13px 18px;">
+                      <div style="font-size: 13.5px; font-weight: 600;">{{ it.type }}</div>
+                      <div class="tabnum" style="font-size: 12px; color: #6B7473; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">{{ it.ref }}</div>
+                    </td>
+                    <td style="padding: 13px 18px;">
+                      <div style="font-size: 13px; color: #4B5453;">{{ it.detailLine1 }}</div>
+                      <sc-if value="{{ it.isLoan }}"><div style="font-size: 12px; color: #9A5B13; margin-top: 3px; font-weight: 600;">Entra inteiro · {{ it.detailLine2 }}</div></sc-if>
+                      <sc-if value="{{ it.showDesagioInputs }}">
+                        <div onClick="{{ it.stopPropagation }}" style="display: flex; gap: 12px; margin-top: 8px;">
+                          <div style="display: flex; align-items: center; gap: 5px;">
+                            <span style="font-size: 11.5px; color: #6B7473;">Prazo</span>
+                            <input type="number" min="0" value="{{ it.quantidadeDias }}" onChange="{{ it.setQuantidadeDias }}" class="tabnum" style="width: 52px; box-sizing: border-box; padding: 4px 6px; border-radius: 5px; border: 1px solid #DDE2E1; font-size: 12px; text-align: right; font-family: 'IBM Plex Mono', monospace;" />
+                            <span style="font-size: 11.5px; color: #6B7473;">dias</span>
+                          </div>
+                          <div style="display: flex; align-items: center; gap: 5px;">
+                            <span style="font-size: 11.5px; color: #6B7473;">Deságio</span>
+                            <input type="number" min="0" step="0.01" value="{{ it.taxaDesagio }}" onChange="{{ it.setTaxaDesagio }}" class="tabnum" style="width: 52px; box-sizing: border-box; padding: 4px 6px; border-radius: 5px; border: 1px solid #DDE2E1; font-size: 12px; text-align: right; font-family: 'IBM Plex Mono', monospace;" />
+                            <span style="font-size: 11.5px; color: #6B7473;">% a.m.</span>
+                          </div>
+                        </div>
+                      </sc-if>
+                    </td>
+                    <td class="tabnum" style="padding: 13px 18px; font-size: 13.5px; font-weight: 600; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ it.value }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}">
+        <div style="max-width: 680px;">
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">Revisão do cálculo</div>
+          <div style="font-size: 13px; color: #6B7473; margin-bottom: 18px;">{{ selectedCount }} itens de {{ selectedClientName }} — valores agregados dos componentes selecionados</div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 20px;">
+              <div style="font-size: 12px; color: #6B7473;">Valor bruto (desembolsado)</div>
+              <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 700; margin-top: 6px; color: #123B3D;">{{ valorBruto }}</div>
+              <div style="font-size: 11.5px; color: #6B7473; margin-top: 4px;">soma do valor emprestado + valor líquido dos recebíveis</div>
+            </div>
+            <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 20px;">
+              <div style="font-size: 12px; color: #6B7473;">Valor total a receber</div>
+              <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 700; margin-top: 6px;">{{ valorTotalReceber }}</div>
+              <div style="font-size: 11.5px; color: #6B7473; margin-top: 4px;">principal + juros dos empréstimos + valor de face dos recebíveis</div>
+            </div>
+          </div>
+
+          <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 22px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #EEF0EF;">
+              <div><div style="font-size: 13.5px; font-weight: 500;">(–) Tarifas operacionais</div><div style="font-size: 11.5px; color: #6B7473; margin-top: 2px;">TAC + custódia, cobradas à parte</div></div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="font-size: 13px; color: #6B7473;">R$</span>
+                  <input type="number" step="1" value="{{ tarifasVal }}" onChange="{{ setTarifas }}" class="tabnum" style="width: 84px; box-sizing: border-box; padding: 6px 8px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13px; text-align: right; font-family: 'IBM Plex Mono', monospace;" />
+                </div>
+                <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #A8291F; width: 108px; text-align: right;">{{ tarifas }}</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #EEF0EF;">
+              <div><div style="font-size: 13.5px; font-weight: 500;">Valor já pago (anterior à negociação)</div><div style="font-size: 11.5px; color: #6B7473; margin-top: 2px;">Parcelas de empréstimo e recebíveis já liquidados antes desta cessão</div></div>
+              <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4B5453;">{{ valorPago }}</div>
+            </div>
+
+            <div style="padding-top: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 15px; font-weight: 700;">Valor a receber (saldo)</div>
+                <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; color: #9A5B13;">{{ valorAReceber }}</div>
+              </div>
+              <div style="height: 8px; border-radius: 4px; background: #EEF0EF; margin-top: 12px; overflow: hidden;">
+                <div style="height: 100%; width: {{ progressPct }}; background: #1F6F72; border-radius: 4px;"></div>
+              </div>
+              <div style="font-size: 11.5px; color: #6B7473; margin-top: 6px;">{{ progressPct }} do valor total a receber já pago</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep4 }}">
+        <div style="max-width: 620px;">
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">Confirmar negociação</div>
+          <div style="font-size: 13px; color: #6B7473; margin-bottom: 18px;">Revise o resumo abaixo antes de enviar para aprovação. A negociação é criada em análise e segue para o status "Em andamento" (aprovada) — finalizar só fica disponível depois, quando o saldo a receber chegar a R$&nbsp;0,00.</div>
+          <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 24px;">
+            <div style="font-size: 15px; font-weight: 600;">{{ tituloOrDefault }}</div>
+            <div style="font-size: 12.5px; color: #6B7473; margin-top: 3px;">{{ selectedClientName }} · {{ selectedCount }} itens</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; margin-top: 18px;">
+              <div><div style="font-size: 11.5px; color: #6B7473;">Valor bruto</div><div class="tabnum" style="font-size: 14px; font-weight: 600; margin-top: 3px; font-family: 'IBM Plex Mono', monospace;">{{ valorBruto }}</div></div>
+              <div><div style="font-size: 11.5px; color: #6B7473;">Valor total a receber</div><div class="tabnum" style="font-size: 14px; font-weight: 600; margin-top: 3px; font-family: 'IBM Plex Mono', monospace;">{{ valorTotalReceber }}</div></div>
+              <div><div style="font-size: 11.5px; color: #6B7473;">Tarifas</div><div class="tabnum" style="font-size: 14px; margin-top: 3px; font-family: 'IBM Plex Mono', monospace;">{{ tarifas }}</div></div>
+              <div><div style="font-size: 11.5px; color: #6B7473;">Valor a receber (saldo)</div><div class="tabnum" style="font-size: 15px; font-weight: 700; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; color: #9A5B13;">{{ valorAReceber }}</div></div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <div style="position: sticky; bottom: 0; background: white; border-top: 1px solid #E2E6E5; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;">
+      <sc-if value="{{ showTotalizer }}">
+        <div style="font-size: 13.5px; font-weight: 600;">{{ selectedCount }} itens selecionados · valor bruto <span class="tabnum" style="font-family: 'IBM Plex Mono', monospace; color: #123B3D;">{{ valorBruto }}</span></div>
+      </sc-if>
+      <sc-if value="{{ hideTotalizer }}"><div></div></sc-if>
+      <div style="display: flex; gap: 10px;">
+        <sc-if value="{{ canBack }}">
+          <button onClick="{{ back }}" style="padding: 9px 18px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;">Voltar</button>
+        </sc-if>
+        <sc-if value="{{ canNext }}">
+          <button onClick="{{ next }}" style="padding: 9px 20px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit;">{{ nextLabel }}</button>
+        </sc-if>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    step: 1, clientId: 'fecal', numero: '', titulo: '', descricao: '', formaPagamento: 'PIX',
+    selectedIds: new Set(['r1', 'r2', 'e1']), itemParams: {}, tarifasVal: null,
+  };
+
+  clients = [
+    { id: 'fecal', name: 'Fecal Distribuidora Ltda.', doc: '12.345.678/0001-90', available: 5 },
+    { id: 'vitoria', name: 'Metalúrgica Vitória S.A.', doc: '98.765.432/0001-11', available: 3 },
+    { id: 'alvorada', name: 'Distribuidora Alvorada', doc: '33.444.555/0001-66', available: 2 },
+  ];
+
+  // Empréstimos entram inteiros (todas as parcelas) — valorLiquido aqui é o
+  // principal já desembolsado, um fato fixo, sem deságio. Recebíveis não têm
+  // valorLiquido fixo: o back-end calcula a partir de { quantidadeDias, taxaDesagio }
+  // enviados em POST /negociacoes/:id/itens-recebivel (ver calcularValorLiquidoRecebivel).
+  items = [
+    { id: 'r1', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88213', valorFace: 18400, valorPago: 0, detailLine1: 'Vence 22/07/2026 · sacado Mercado Central SP' },
+    { id: 'r2', kind: 'recebivel', type: 'Cheque', ref: '000452', valorFace: 9750, valorPago: 0, detailLine1: 'Vence 10/07/2026 · Banco Itaú' },
+    { id: 'e1', kind: 'emprestimo', type: 'Empréstimo', ref: 'EMP-2026-0072', valorLiquido: 180000, valorFace: 206640, valorPago: 103320, detailLine1: 'Contratado 15/01/2026 · 12 parcelas de R$ 17.220,00' },
+    { id: 'r3', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88255', valorFace: 12100, valorPago: 0, detailLine1: 'Vence 28/06/2026 · sacado Supermix Alimentos' },
+  ];
+
+  fmt(n) {
+    return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  itemParams(id) {
+    return this.state.itemParams[id] || { quantidadeDias: 30, taxaDesagio: 2.5 };
+  }
+
+  // Fórmula ILUSTRATIVA, só para dar uma prévia visual coerente com prazo x
+  // taxa neste mockup — o back-end é a fonte da verdade para
+  // valorConsiderado/valorDesagio/valorLiquido reais. Não reproduzir esta
+  // conta no frontend real; ela existe só aqui para o design ficar navegável.
+  calcularValorLiquidoRecebivel(valorFace, quantidadeDias, taxaDesagio) {
+    const desagio = valorFace * (taxaDesagio / 100) * (quantidadeDias / 30);
+    return Math.max(0, valorFace - desagio);
+  }
+
+  renderVals() {
+    const step = this.state.step;
+    const stepDefs = [
+      { key: 1, label: 'Cliente' },
+      { key: 2, label: 'Itens' },
+      { key: 3, label: 'Cálculo' },
+      { key: 4, label: 'Confirmação' },
+    ];
+    const steps = stepDefs.map(s => {
+      const done = s.key < step, active = s.key === step;
+      return {
+        label: s.label, num: s.key, done, notDone: !done,
+        barColor: done || active ? '#1F6F72' : '#E2E6E5',
+        dotColor: done ? '#1F6F72' : active ? '#123B3D' : '#E2E6E5',
+        numColor: active ? 'white' : '#8B9493',
+        labelColor: active ? '#123B3D' : done ? '#4B5453' : '#8B9493',
+      };
+    });
+
+    const client = this.clients.find(c => c.id === this.state.clientId);
+    const clientOptions = this.clients.map(c => ({
+      name: c.name, doc: c.doc, available: c.available,
+      selected: c.id === this.state.clientId,
+      bg: c.id === this.state.clientId ? '#EFF4F4' : 'white',
+      onClick: () => this.setState({ clientId: c.id }),
+    }));
+
+    // Uma única passada calculando o valorLiquido de cada item (via deságio
+    // para recebíveis, fixo para empréstimos) — tanto os cards do item na
+    // tabela quanto os totalizadores dos passos 3/4 usam este mesmo valor,
+    // nunca dois números diferentes para a "mesma" coisa.
+    const itemsCalc = this.items.map(it => {
+      const checked = this.state.selectedIds.has(it.id);
+      const isLoan = it.kind === 'emprestimo';
+      const params = this.itemParams(it.id);
+      const valorLiquidoN = isLoan
+        ? it.valorLiquido
+        : this.calcularValorLiquidoRecebivel(it.valorFace, params.quantidadeDias, params.taxaDesagio);
+      return { ...it, checked, isLoan, params, valorLiquidoN };
+    });
+
+    const items = itemsCalc.map(it => ({
+      type: it.type, ref: it.ref, detailLine1: it.detailLine1,
+      isLoan: it.isLoan,
+      detailLine2: it.isLoan ? `${it.valorPago > 0 ? '6 pagas' : '0 pagas'} de 12` : '',
+      value: this.fmt(it.valorLiquidoN),
+      checked: it.checked,
+      showDesagioInputs: it.checked && !it.isLoan,
+      quantidadeDias: it.params.quantidadeDias,
+      taxaDesagio: it.params.taxaDesagio,
+      setQuantidadeDias: (e) => this.setState(s => ({
+        itemParams: { ...s.itemParams, [it.id]: { ...this.itemParams(it.id), quantidadeDias: parseInt(e.target.value, 10) || 0 } },
+      })),
+      setTaxaDesagio: (e) => this.setState(s => ({
+        itemParams: { ...s.itemParams, [it.id]: { ...this.itemParams(it.id), taxaDesagio: parseFloat(e.target.value) || 0 } },
+      })),
+      stopPropagation: (e) => e.stopPropagation(),
+      checkBg: it.checked ? '#1F6F72' : 'white',
+      checkBorder: it.checked ? '#1F6F72' : '#C7CDCC',
+      bg: it.checked ? '#F6FAFA' : 'white',
+      toggle: () => this.setState(s => {
+        const next = new Set(s.selectedIds);
+        next.has(it.id) ? next.delete(it.id) : next.add(it.id);
+        return { selectedIds: next };
+      }),
+    }));
+
+    const selected = itemsCalc.filter(it => it.checked);
+    const valorBrutoN = selected.reduce((a, b) => a + b.valorLiquidoN, 0);
+    const valorTotalReceberN = selected.reduce((a, b) => a + b.valorFace, 0);
+    const valorPagoAnteriorN = selected.reduce((a, b) => a + b.valorPago, 0);
+    // Tarifas são inteiramente definidas pelo usuário (valorTarifas em
+    // POST /negociacoes) — nada de sugerir um valor "mágico" por item.
+    const tarifasN = this.state.tarifasVal ?? 0;
+    const valorAReceberN = Math.max(0, valorTotalReceberN - valorPagoAnteriorN - tarifasN);
+    const progress = valorTotalReceberN > 0 ? Math.min(100, (valorPagoAnteriorN / valorTotalReceberN) * 100) : 0;
+
+    return {
+      steps,
+      isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4,
+      numero: this.state.numero, titulo: this.state.titulo, descricao: this.state.descricao,
+      formaPagamento: this.state.formaPagamento,
+      setNumero: (e) => this.setState({ numero: e.target.value }),
+      setTitulo: (e) => this.setState({ titulo: e.target.value }),
+      setDescricao: (e) => this.setState({ descricao: e.target.value }),
+      setFormaPagamento: (e) => this.setState({ formaPagamento: e.target.value }),
+      tituloOrDefault: this.state.titulo || 'Negociação sem título',
+      clientOptions,
+      selectedClientName: client ? client.name : '',
+      items,
+      selectedCount: selected.length,
+      valorBruto: this.fmt(valorBrutoN),
+      valorTotalReceber: this.fmt(valorTotalReceberN),
+      valorPago: this.fmt(valorPagoAnteriorN),
+      tarifasVal: tarifasN,
+      tarifas: '– ' + this.fmt(tarifasN),
+      valorAReceber: this.fmt(valorAReceberN),
+      progressPct: progress.toFixed(0) + '%',
+      setTarifas: (e) => this.setState({ tarifasVal: parseFloat(e.target.value) || 0 }),
+      showTotalizer: step === 2,
+      hideTotalizer: step !== 2,
+      canBack: step > 1,
+      canNext: step < 5,
+      // O wizard cria a negociação e a envia para aprovação (EM_ANALISE -> APROVADA).
+      // "Finalizar" (APROVADA -> FINALIZADA) só acontece depois, na tela de detalhe,
+      // quando o saldo a receber chegar a zero — não é uma ação do wizard.
+      nextLabel: step === 4 ? 'Aprovar negociação' : 'Continuar',
+      back: () => this.setState(s => ({ step: Math.max(1, s.step - 1) })),
+      next: () => this.setState(s => ({ step: Math.min(4, s.step + 1) })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

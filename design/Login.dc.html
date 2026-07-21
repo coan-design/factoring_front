@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    input { font-family: 'Public Sans', sans-serif; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <div style="flex: 1; min-width: 340px; background: #123B3D; color: #E7EEEC; display: flex; flex-direction: column; justify-content: space-between; padding: 48px; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; right: 0; width: 64px; height: 64px; background: #F6F7F6; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="width: 30px; height: 30px; background: #E7EEEC; position: relative; border-radius: 4px;">
+        <div style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+      </div>
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: 0.01em;">CEDRO</div>
+    </div>
+    <div style="max-width: 400px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 30px; line-height: 1.25;">Operação de factoring com precisão de ponta a ponta.</div>
+      <div style="font-size: 14px; color: #9FD1CE; margin-top: 14px; line-height: 1.6;">Cadastro de clientes, recebíveis e negociações de cessão em um único fluxo, com cada número rastreável até sua origem.</div>
+    </div>
+    <div style="font-size: 12px; color: #6FA3A1;">Uso interno · v2.4</div>
+  </div>
+
+  <div style="flex: 1; min-width: 380px; background: #F6F7F6; display: flex; align-items: center; justify-content: center;">
+    <div style="width: 100%; max-width: 360px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-bottom: 6px;">Entrar</div>
+      <div style="font-size: 13.5px; color: #6B7473; margin-bottom: 28px;">Acesse com suas credenciais corporativas.</div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">E-mail</label>
+          <input type="email" placeholder="nome@empresa.com.br" style="width: 100%; box-sizing: border-box; margin-top: 6px; padding: 10px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
+        </div>
+        <div>
+          <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Senha</label>
+          <input type="password" placeholder="••••••••" style="width: 100%; box-sizing: border-box; margin-top: 6px; padding: 10px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+          <a href="#" style="font-size: 12.5px; font-weight: 500; text-decoration: none;">Esqueci minha senha</a>
+        </div>
+        <button style="width: 100%; padding: 11px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 4px;">Entrar</button>
+      </div>
+
+      <div style="font-size: 12px; color: #8B9493; margin-top: 28px; text-align: center;">Acesso restrito a colaboradores autorizados. Em caso de dúvidas, contate o suporte interno.</div>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+</body>
+</html>

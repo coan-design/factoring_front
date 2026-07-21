@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"R\\\\$ 17.940,00\\\\|R\\\\$ 18.400,00\" src/features/negociacoes/pages/NegociacaoWizardPage.test.tsx)",
+      "Bash(lsof -ti:4001 -sTCP:LISTEN)",
+      "Bash(VITE_API_URL=http://localhost:4001 nohup npm run dev -- --port 5173)",
+      "Bash(node /tmp/claude-1000/-home-ana-laura-coan-Documentos-factoring-v2-0-factoring-web-v2-0/a06b7f74-0df9-4621-8f2b-8f11310c0891/scratchpad/screenshot-dashboard.mjs)",
+      "Bash(NODE_PATH=\"$\\(pwd\\)/node_modules\" node /tmp/claude-1000/-home-ana-laura-coan-Documentos-factoring-v2-0-factoring-web-v2-0/a06b7f74-0df9-4621-8f2b-8f11310c0891/scratchpad/screenshot-dashboard.mjs)",
+      "Bash(node .tmp-screenshot-dashboard.mjs)",
+      "Bash(npm uninstall *)"
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="negociacoes" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;"><a href="#" style="text-decoration: none;">Negociações</a> / NG-2026-0341</div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px;">Cessão de carteira julho — Fecal</div>
+          <dc-import name="StatusBadge" label="Em andamento" tone="info" hint-size="110px,26px"></dc-import>
+        </div>
+        <div style="font-size: 13px; color: #6B7473; margin-top: 4px;">NG-2026-0341 · Fecal Distribuidora Ltda. · aberta em 18/07/2026</div>
+      </div>
+      <button style="padding: 9px 16px; border-radius: 6px; border: none; background: {{ finalizeBg }}; color: {{ finalizeColor }}; font-size: 13.5px; font-weight: 600; cursor: {{ finalizeCursor }}; font-family: inherit;" disabled="{{ finalizeDisabled }}">Finalizar negociação</button>
+    </div>
+
+    <div style="padding: 32px 40px;">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 20px;">
+          <div style="font-size: 12px; color: #6B7473;">Valor bruto (desembolsado)</div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 700; margin-top: 6px; color: #123B3D;">R$ 216.900,00</div>
+        </div>
+        <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 20px;">
+          <div style="font-size: 12px; color: #6B7473;">Valor total a receber</div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 700; margin-top: 6px;">R$ 246.290,00</div>
+        </div>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 22px; margin-bottom: 28px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: #9A5B13; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid #EEF0EF;">
+          <div><div style="font-size: 13.5px; font-weight: 500;">(–) Tarifas operacionais</div><div style="font-size: 11.5px; color: #6B7473; margin-top: 2px;">TAC + custódia</div></div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #A8291F;">– R$ 210,00</div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #EEF0EF;">
+          <div><div style="font-size: 13.5px; font-weight: 500;">Valor já pago</div><div style="font-size: 11.5px; color: #6B7473; margin-top: 2px;">Inclui 6 parcelas do empréstimo quitadas antes desta negociação</div></div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4B5453;">R$ 103.320,00</div>
+        </div>
+
+        <div style="padding-top: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="font-size: 15px; font-weight: 700;">Valor a receber (saldo)</div>
+            <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; color: #9A5B13;">R$ 142.760,00</div>
+          </div>
+          <div style="height: 8px; border-radius: 4px; background: #EEF0EF; margin-top: 12px; overflow: hidden;">
+            <div style="height: 100%; width: 42%; background: #1F6F72; border-radius: 4px;"></div>
+          </div>
+          <div style="font-size: 11.5px; color: #6B7473; margin-top: 6px;">42% do valor total a receber já pago</div>
+        </div>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
+        <div style="padding: 18px 20px; border-bottom: 1px solid #E2E6E5; font-size: 15px; font-weight: 600;">Itens incluídos</div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #FAFBFA;">
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Item</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Detalhe</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Bruto</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">A receber</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Progresso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+              <tr style="border-bottom: 1px solid #EEF0EF;" style-hover="background: #FAFBFA;">
+                <td style="padding: 13px 20px;">
+                  <div style="font-size: 13.5px; font-weight: 600;">{{ it.type }}</div>
+                  <div class="tabnum" style="font-size: 12px; color: #6B7473; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">{{ it.ref }}</div>
+                </td>
+                <td style="padding: 13px 20px; font-size: 13px; color: #4B5453;">{{ it.detail }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ it.bruto }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; font-weight: 600; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ it.aReceber }}</td>
+                <td style="padding: 13px 20px; width: 160px;">
+                  <div style="height: 6px; border-radius: 3px; background: #EEF0EF; overflow: hidden;">
+                    <div style="height: 100%; width: {{ it.progressPct }}; background: {{ it.progressColor }}; border-radius: 3px;"></div>
+                  </div>
+                  <div style="font-size: 11px; color: #6B7473; margin-top: 4px;">{{ it.progressPct }} pago</div>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="font-size: 12.5px; color: #6B7473; margin-top: 14px;">A ação "Finalizar negociação" habilita quando o valor a receber chegar a R$ 0,00.</div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const items = [
+      { type: 'Duplicata', ref: 'DP-88213', detail: 'Sacado Mercado Central SP · vence 22/07/2026', bruto: 17800, aReceber: 18400, pago: 0 },
+      { type: 'Cheque', ref: '000452', detail: 'Banco Itaú · vence 10/07/2026', bruto: 9400, aReceber: 9750, pago: 0 },
+      { type: 'Empréstimo', ref: 'EMP-2026-0072', detail: '12 parcelas · 6 pagas antes da cessão', bruto: 180000, aReceber: 206640, pago: 103320 },
+      { type: 'Duplicata', ref: 'DP-88255', detail: 'Sacado Supermix Alimentos · vence 28/06/2026', bruto: 11700, aReceber: 12100, pago: 0 },
+    ].map(it => {
+      const pct = it.aReceber > 0 ? Math.round((it.pago / it.aReceber) * 100) : 0;
+      return {
+        ...it,
+        bruto: 'R$ ' + it.bruto.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+        aReceber: 'R$ ' + it.aReceber.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+        progressPct: pct + '%',
+        progressColor: pct === 100 ? '#2F6D3B' : pct > 0 ? '#1F6F72' : '#C7CDCC',
+      };
+    });
+    const saldoZero = false;
+    return {
+      items,
+      finalizeBg: saldoZero ? '#1F6F72' : '#EDEFEE',
+      finalizeColor: saldoZero ? 'white' : '#9AA3A1',
+      finalizeCursor: saldoZero ? 'pointer' : 'not-allowed',
+      finalizeDisabled: !saldoZero,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

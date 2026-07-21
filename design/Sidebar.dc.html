@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+</helmet>
+<div style="width: {{ width }}; min-width: {{ width }}; height: 100%; background: #123B3D; color: #E7EEEC; font-family: 'Public Sans', sans-serif; display: flex; flex-direction: column; transition: width 0.18s ease, min-width 0.18s ease; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; gap: 10px; padding: 20px {{ hpad }}; height: 24px;">
+    <div style="width: 26px; height: 26px; background: #E7EEEC; position: relative; flex-shrink: 0; border-radius: 3px;">
+      <div style="position: absolute; top: 0; right: 0; width: 9px; height: 9px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+    </div>
+    <sc-if value="{{ expanded }}">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: 0.01em; white-space: nowrap;">CEDRO</div>
+    </sc-if>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 2px; padding: 20px 12px; flex: 1;">
+    <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; cursor: pointer; background: {{ item.bg }}; color: {{ item.color }};">
+        <div style="width: 18px; height: 18px; flex-shrink: 0;" dangerouslySetInnerHTML="{{ item.iconHtml }}"></div>
+        <sc-if value="{{ expanded }}">
+          <div style="font-size: 13.5px; font-weight: {{ item.weight }}; white-space: nowrap;">{{ item.label }}</div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="padding: 14px 12px; border-top: 1px solid rgba(231,238,236,0.14); display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 6px 8px;">
+      <div style="width: 28px; height: 28px; border-radius: 50%; background: #1F6F72; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0;">{{ initials }}</div>
+      <sc-if value="{{ expanded }}">
+        <div style="min-width: 0;">
+          <div style="font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ userName }}</div>
+          <div style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; color: #9FD1CE; text-transform: uppercase; margin-top: 1px;">{{ userRole }}</div>
+        </div>
+      </sc-if>
+    </div>
+    <div onClick="{{ toggleCollapse }}" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px; border-radius: 7px; cursor: pointer; color: #9FD1CE; font-size: 12px;" style-hover="background: rgba(231,238,236,0.08);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: {{ chevronRotate }};"><path d="M9 6l6 6-6 6"/></svg>
+      <sc-if value="{{ expanded }}"><span>Recolher</span></sc-if>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:236,&quot;height&quot;:700},&quot;activeItem&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dashboard&quot;,&quot;options&quot;:[&quot;dashboard&quot;,&quot;clientes&quot;,&quot;recebiveis&quot;,&quot;emprestimos&quot;,&quot;negociacoes&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;userRole&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;OPERADOR&quot;,&quot;options&quot;:[&quot;ADMIN&quot;,&quot;OPERADOR&quot;,&quot;ANALISTA&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;userName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Renata Ávila&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { expanded: true };
+
+  icon(paths) {
+    return { __html: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>` };
+  }
+
+  renderVals() {
+    const active = this.props.activeItem || 'dashboard';
+    const expanded = this.state.expanded;
+    const items = [
+      { key: 'dashboard', label: 'Dashboard', paths: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>' },
+      { key: 'clientes', label: 'Clientes', paths: '<circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>' },
+      { key: 'recebiveis', label: 'Recebíveis', paths: '<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>' },
+      { key: 'emprestimos', label: 'Empréstimos', paths: '<ellipse cx="12" cy="7" rx="7" ry="3.2"/><path d="M5 7v10c0 1.8 3.1 3.2 7 3.2s7-1.4 7-3.2V7"/><path d="M5 12c0 1.8 3.1 3.2 7 3.2s7-1.4 7-3.2"/>' },
+      { key: 'negociacoes', label: 'Negociações', paths: '<path d="M4 8h11M11 4l4 4-4 4"/><path d="M20 16H9m4 4l-4-4 4-4"/>' },
+    ];
+    const navItems = items.map(it => ({
+      label: it.label,
+      iconHtml: this.icon(it.paths),
+      bg: it.key === active ? '#1F6F72' : 'transparent',
+      color: it.key === active ? '#FFFFFF' : '#B9CBC9',
+      weight: it.key === active ? 600 : 500,
+    }));
+    const name = this.props.userName || 'Renata Ávila';
+    const initials = name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    return {
+      width: expanded ? '236px' : '72px',
+      hpad: expanded ? '16px' : '23px',
+      expanded,
+      navItems,
+      userName: name,
+      userRole: this.props.userRole || 'OPERADOR',
+      initials,
+      chevronRotate: expanded ? 'rotate(90deg)' : 'rotate(-90deg)',
+      toggleCollapse: () => this.setState(s => ({ expanded: !s.expanded })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

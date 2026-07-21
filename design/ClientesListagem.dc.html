@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    select, input { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="clientes" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;">Início / Clientes</div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Clientes</div>
+      </div>
+      <button style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Novo cliente
+      </button>
+    </div>
+
+    <div style="padding: 32px 40px;">
+
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+        <div style="flex: 1; max-width: 340px; position: relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Buscar por nome, CNPJ ou CPF" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
+        </div>
+        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
+          <option>Todos os status</option>
+          <option>Ativo</option>
+          <option>Inativo</option>
+        </select>
+        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
+          <option>Todos os tipos</option>
+          <option>Pessoa Jurídica</option>
+          <option>Pessoa Física</option>
+        </select>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #FAFBFA;">
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Cliente</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Tipo</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">CNPJ/CPF</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Status</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ clients }}" as="c" hint-placeholder-count="8">
+              <tr style="border-bottom: 1px solid #EEF0EF;" style-hover="background: #FAFBFA;">
+                <td style="padding: 13px 20px; font-size: 13.5px; font-weight: 500;"><a href="#" style="text-decoration: none;">{{ c.name }}</a></td>
+                <td style="padding: 13px 20px; font-size: 13.5px; color: #4B5453;">{{ c.type }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; color: #4B5453; font-family: 'IBM Plex Mono', monospace;">{{ c.doc }}</td>
+                <td style="padding: 13px 20px;">
+                  <dc-import name="StatusBadge" label="{{ c.statusLabel }}" tone="{{ c.statusTone }}" hint-size="90px,26px"></dc-import>
+                </td>
+                <td style="padding: 13px 20px; text-align: right;">
+                  <div style="display: inline-flex; gap: 6px;">
+                    <button style="padding: 6px 12px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #171C1C;">{{ c.toggleLabel }}</button>
+                    <button style="padding: 6px 12px; border-radius: 6px; border: none; background: #EFF4F4; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #1F6F72;">Ver detalhe</button>
+                  </div>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid #E2E6E5;">
+          <div style="font-size: 12.5px; color: #6B7473;">Mostrando 1–8 de 42 clientes</div>
+          <div style="display: flex; gap: 6px;">
+            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: #F1F1F0; color: #B7BDBB; font-family: inherit;" disabled>‹</button>
+            <button style="width: 30px; height: 30px; border-radius: 6px; border: none; background: #123B3D; color: white; font-size: 12.5px; font-family: inherit;">1</button>
+            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">2</button>
+            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">3</button>
+            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-family: inherit;">›</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const clients = [
+      { name: 'Fecal Distribuidora Ltda.', type: 'Jurídica', doc: '12.345.678/0001-90', status: 'Ativo' },
+      { name: 'Metalúrgica Vitória S.A.', type: 'Jurídica', doc: '98.765.432/0001-11', status: 'Ativo' },
+      { name: 'Comércio Rio Bonito ME', type: 'Jurídica', doc: '11.222.333/0001-44', status: 'Ativo' },
+      { name: 'Auto Peças Nordeste Ltda.', type: 'Jurídica', doc: '22.333.444/0001-55', status: 'Inativo' },
+      { name: 'Distribuidora Alvorada', type: 'Jurídica', doc: '33.444.555/0001-66', status: 'Ativo' },
+      { name: 'João Carlos Menezes', type: 'Física', doc: '123.456.789-00', status: 'Ativo' },
+      { name: 'Têxtil Bom Retiro Ltda.', type: 'Jurídica', doc: '44.555.666/0001-77', status: 'Ativo' },
+      { name: 'Mariana Souza Ferreira', type: 'Física', doc: '987.654.321-00', status: 'Inativo' },
+    ].map(c => ({
+      ...c,
+      statusLabel: c.status,
+      statusTone: c.status === 'Ativo' ? 'success' : 'neutral',
+      toggleLabel: c.status === 'Ativo' ? 'Inativar' : 'Ativar',
+    }));
+    return { clients };
+  }
+}
+
+</script>
+</body>
+</html>

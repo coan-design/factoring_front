@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F6F7F6; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+  </style>
+</helmet>
+<div style="font-family: 'Public Sans', sans-serif; color: #171C1C; padding: 56px 64px; max-width: 1240px; margin: 0 auto;">
+
+  <div style="margin-bottom: 48px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.01em;">Sistema de Tokens — Factoring OS</div>
+    <div style="font-size: 15px; color: #4B5453; margin-top: 8px; max-width: 640px;">Paleta, tipografia, espaçamento e o elemento de assinatura visual, para validação antes dos mockups de tela.</div>
+  </div>
+
+  <!-- Palette -->
+  <div style="margin-bottom: 48px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4B5453; margin-bottom: 16px;">Paleta</div>
+    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;">
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #123B3D; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 18px; height: 18px; background: #F6F7F6; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+        </div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Petróleo Tinta</div>
+        <div style="font-size: 12px; color: #6B7473;">#123B3D — marca, sidebar, texto de ênfase</div>
+      </div>
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #1F6F72;"></div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Petróleo Interativo</div>
+        <div style="font-size: 12px; color: #6B7473;">#1F6F72 — botões, links, foco</div>
+      </div>
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #9A5B13;"></div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Âmbar Atenção</div>
+        <div style="font-size: 12px; color: #6B7473;">#9A5B13 — vencimento, pendência</div>
+      </div>
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #A8291F;"></div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Vermelho Crítico</div>
+        <div style="font-size: 12px; color: #6B7473;">#A8291F — erro, inadimplência, destrutivo</div>
+      </div>
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #F6F7F6; border: 1px solid #DDE2E1;"></div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Neutro Base</div>
+        <div style="font-size: 12px; color: #6B7473;">#F6F7F6 — fundo de aplicação</div>
+      </div>
+
+      <div>
+        <div style="height: 88px; border-radius: 8px; background: #171C1C;"></div>
+        <div style="font-weight: 600; font-size: 13px; margin-top: 10px;">Grafite Texto</div>
+        <div style="font-size: 12px; color: #6B7473;">#171C1C — texto primário</div>
+      </div>
+
+    </div>
+    <div style="font-size: 13px; color: #4B5453; margin-top: 16px; line-height: 1.6; max-width: 880px;">
+      Base neutra levemente fria (não branco puro) para reduzir fadiga em uso de horas. Petróleo como cor de marca — remete a solidez financeira sem ser o azul corporativo padrão nem o terracota genérico de IA. Âmbar e vermelho são semânticos e distintos entre si (atenção vs. crítico), nunca dependendo só da cor: sempre acompanhados de ícone/texto no badge.
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div style="margin-bottom: 48px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4B5453; margin-bottom: 16px;">Tipografia</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div style="background: white; border: 1px solid #DDE2E1; border-radius: 10px; padding: 24px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; background: #F6F7F6; clip-path: polygon(100% 0, 0 0, 100% 100%); border-left: 1px solid #DDE2E1; border-bottom: 1px solid #DDE2E1;"></div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 26px;">Negociação NG-2026-0341</div>
+        <div style="font-size: 12px; color: #6B7473; margin-top: 8px;">Space Grotesk 600 — títulos de página, uso pontual (H1 de PageHeader)</div>
+      </div>
+      <div style="background: white; border: 1px solid #DDE2E1; border-radius: 10px; padding: 24px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; background: #F6F7F6; clip-path: polygon(100% 0, 0 0, 100% 100%); border-left: 1px solid #DDE2E1; border-bottom: 1px solid #DDE2E1;"></div>
+        <div style="font-size: 15px; font-weight: 500;">Cliente: Fecal Distribuidora Ltda.</div>
+        <div style="font-size: 13px; color: #4B5453; margin-top: 6px;">Public Sans 400/500/600 — toda a UI, labels, corpo de texto, tabelas</div>
+      </div>
+      <div style="background: white; border: 1px solid #DDE2E1; border-radius: 10px; padding: 24px; grid-column: span 2;">
+        <div style="display: flex; gap: 32px; align-items: baseline;">
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 28px; color: #123B3D;">R$ 184.320,50</div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 28px; color: #123B3D;">R$ 12.400,00</div>
+          <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 28px; color: #9A5B13;">2,35%</div>
+        </div>
+        <div style="font-size: 12px; color: #6B7473; margin-top: 10px;">IBM Plex Mono, tabular nums — valores monetários, taxas e datas em tabelas densas e KPIs. Alinhamento perfeito de dígitos em qualquer densidade.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing / radius -->
+  <div style="margin-bottom: 48px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4B5453; margin-bottom: 16px;">Espaçamento &amp; Raio</div>
+    <div style="display: flex; gap: 20px; align-items: flex-end;">
+      <div style="display: flex; gap: 8px; align-items: flex-end;">
+        <div style="width: 4px; height: 4px; background: #1F6F72;"></div>
+        <div style="width: 8px; height: 8px; background: #1F6F72;"></div>
+        <div style="width: 12px; height: 12px; background: #1F6F72;"></div>
+        <div style="width: 16px; height: 16px; background: #1F6F72;"></div>
+        <div style="width: 24px; height: 24px; background: #1F6F72;"></div>
+        <div style="width: 32px; height: 32px; background: #1F6F72;"></div>
+        <div style="width: 48px; height: 48px; background: #1F6F72;"></div>
+      </div>
+      <div style="font-size: 12px; color: #6B7473;">Grade base 4px — escala 4/8/12/16/24/32/48</div>
+    </div>
+    <div style="display: flex; gap: 24px; margin-top: 20px;">
+      <div style="width: 64px; height: 40px; background: white; border: 1px solid #DDE2E1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6B7473;">6px</div>
+      <div style="width: 64px; height: 40px; background: white; border: 1px solid #DDE2E1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6B7473;">10px</div>
+      <div style="font-size: 12px; color: #6B7473; align-self: center;">6px em inputs/botões (não pílula) · 10px em cards/painéis</div>
+    </div>
+  </div>
+
+  <!-- Signature element -->
+  <div>
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4B5453; margin-bottom: 16px;">Elemento de Assinatura — Canto de Ledger</div>
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start;">
+      <div style="background: white; border: 1px solid #DDE2E1; border-radius: 10px; padding: 24px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 28px; height: 28px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+        <div style="font-size: 12px; color: #6B7473;">Recebíveis vencidos</div>
+        <div class="tabnum" style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 30px; margin-top: 6px; color: #A8291F;">R$ 43.180,00</div>
+        <div style="font-size: 12px; color: #6B7473; margin-top: 4px;">18 títulos em atraso</div>
+      </div>
+      <div style="font-size: 13px; color: #4B5453; line-height: 1.6;">
+        Um pequeno corte diagonal no canto superior direito de cards de KPI, cabeçalhos de painel e passos do wizard — remete à quina dobrada de um recibo/ficha de ledger, sem ilustrar literalmente um documento. Aparece sempre na mesma cor do dado que carrega (petróleo neutro, âmbar em atenção, vermelho em crítico), reforçando o status pelo canto antes mesmo de ler o número. É a marca reconhecível do sistema — nunca um badge arredondado ou borda lateral colorida (evitando o clichê genérico).
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+</body>
+</html>

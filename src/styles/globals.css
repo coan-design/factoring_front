@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background: #f6f7f6;
+  color: #171c1c;
+}
+
+/* Números monetários, taxas e datas em tabelas/KPIs usam sempre esta classe junto com font-mono */
+.tabnum {
+  font-variant-numeric: tabular-nums;
+}
