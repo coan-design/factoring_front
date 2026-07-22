@@ -6,15 +6,18 @@ export interface CriarRecebivelPayload {
   tipo: TipoRecebivel;
   clienteId: string;
   valorNominal: number;
+  dataEmissao: string;
   dataVencimento: string;
   // Duplicata
-  numeroDuplicata?: string;
   numeroNotaFiscal?: string;
+  aceite?: boolean;
   sacado?: string;
   // Cheque
   banco?: string;
   agencia?: string;
+  conta?: string;
   numeroCheque?: string;
+  dataBomPara?: string;
   emitente?: string;
 }
 

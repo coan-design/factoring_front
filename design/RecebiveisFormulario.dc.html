@@ -10,6 +10,7 @@
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
   <style>
     body { margin: 0; }
     .tabnum { font-variant-numeric: tabular-nums; }
@@ -87,6 +88,19 @@
           </div>
         </sc-if>
 
+        <div style="height: 1px; background: #EEF0EF; margin: 24px 0;"></div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Fotos do documento</div>
+        <div style="font-size: 12.5px; color: #6B7473; margin-bottom: 12px;">Frente e verso {{ fotoHint }}, para conferência e eventual disputa.</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <image-slot id="recebivel-foto-frente" style="width: 100%; height: 160px;" shape="rounded" radius="8" placeholder="Frente do documento"></image-slot>
+          </div>
+          <div>
+            <image-slot id="recebivel-foto-verso" style="width: 100%; height: 160px;" shape="rounded" radius="8" placeholder="Verso do documento"></image-slot>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -107,6 +121,7 @@ class Component extends DCLogic {
       colorDup: !isCheque ? 'white' : '#4B5453',
       setTipo: () => this.setState({ tipo: 'Cheque' }),
       setTipoDup: () => this.setState({ tipo: 'Duplicata' }),
+      fotoHint: isCheque ? 'do cheque' : 'da duplicata/nota fiscal',
     };
   }
 }

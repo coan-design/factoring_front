@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    input, select { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="clientes" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;"><a href="#" style="text-decoration: none;">Clientes</a> / Novo</div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Novo cliente</div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button style="padding: 9px 16px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;">Cancelar</button>
+        <button onClick="{{ handleSave }}" style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit;">Salvar cliente</button>
+      </div>
+    </div>
+
+    <div style="padding: 32px 40px; max-width: 760px;">
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 26px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">Tipo de cliente</div>
+        <div style="display: inline-flex; border: 1px solid #DDE2E1; border-radius: 7px; padding: 3px; margin-bottom: 26px;">
+          <div onClick="{{ setPJ }}" style="padding: 8px 20px; border-radius: 5px; font-size: 13.5px; font-weight: 600; cursor: pointer; background: {{ bgPJ }}; color: {{ colorPJ }};">Pessoa Jurídica</div>
+          <div onClick="{{ setPF }}" style="padding: 8px 20px; border-radius: 5px; font-size: 13.5px; font-weight: 600; cursor: pointer; background: {{ bgPF }}; color: {{ colorPF }};">Pessoa Física</div>
+        </div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Dados cadastrais</div>
+
+        <sc-if value="{{ isPJ }}">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div style="grid-column: span 2;">
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Razão social</label>
+              <input value="{{ razaoSocial }}" onChange="{{ setRazaoSocial }}" placeholder="Ex: Fecal Distribuidora Ltda." style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ razaoBorder }}; font-size: 13.5px;" />
+              <sc-if value="{{ razaoError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">Razão social é obrigatória.</div></sc-if>
+            </div>
+            <div>
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Nome fantasia</label>
+              <input placeholder="Nome comercial" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+            </div>
+            <div>
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">CNPJ</label>
+              <input value="{{ cnpj }}" onChange="{{ setCnpj }}" placeholder="00.000.000/0001-00" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ cnpjBorder }}; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+              <sc-if value="{{ cnpjError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">CNPJ inválido — verifique o formato.</div></sc-if>
+            </div>
+            <div>
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Inscrição estadual</label>
+              <input placeholder="000.000.000.000" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isPF }}">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div style="grid-column: span 2;">
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Nome completo</label>
+              <input value="{{ razaoSocial }}" onChange="{{ setRazaoSocial }}" placeholder="Ex: João Carlos Menezes" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ razaoBorder }}; font-size: 13.5px;" />
+              <sc-if value="{{ razaoError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">Nome é obrigatório.</div></sc-if>
+            </div>
+            <div>
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">CPF</label>
+              <input value="{{ cnpj }}" onChange="{{ setCnpj }}" placeholder="000.000.000-00" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ cnpjBorder }}; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+              <sc-if value="{{ cnpjError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">CPF inválido — verifique o formato.</div></sc-if>
+            </div>
+            <div>
+              <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">RG</label>
+              <input placeholder="00.000.000-0" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 26px;">
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Telefone</label>
+            <input placeholder="(00) 0000-0000" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+          </div>
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">E-mail</label>
+            <input value="{{ email }}" onChange="{{ setEmail }}" placeholder="financeiro@empresa.com.br" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ emailBorder }}; font-size: 13.5px;" />
+            <sc-if value="{{ emailError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">Informe um e-mail válido.</div></sc-if>
+          </div>
+        </div>
+
+        <div style="height: 1px; background: #EEF0EF; margin-bottom: 24px;"></div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Endereço</div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Logradouro</label>
+            <input placeholder="Rua, avenida, número, complemento" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+          </div>
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">CEP</label>
+            <input placeholder="00000-000" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Bairro</label>
+            <input placeholder="Bairro" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+          </div>
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Cidade</label>
+            <input placeholder="Cidade" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
+          </div>
+          <div>
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">UF</label>
+            <select style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;">
+              <option>SP</option>
+              <option>RJ</option>
+              <option>MG</option>
+              <option>PR</option>
+              <option>RS</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tipo: 'PJ', razaoSocial: '', cnpj: '', email: '', submitted: false };
+
+  renderVals() {
+    const isPJ = this.state.tipo === 'PJ';
+    const s = this.state;
+    const showErrors = s.submitted;
+    const razaoError = showErrors && !s.razaoSocial.trim();
+    const cnpjError = showErrors && !s.cnpj.trim();
+    const emailError = showErrors && s.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email);
+    const errBorder = '#D98E88', okBorder = '#DDE2E1';
+    return {
+      isPJ, isPF: !isPJ,
+      bgPJ: isPJ ? '#1F6F72' : 'transparent', colorPJ: isPJ ? 'white' : '#4B5453',
+      bgPF: !isPJ ? '#1F6F72' : 'transparent', colorPF: !isPJ ? 'white' : '#4B5453',
+      setPJ: () => this.setState({ tipo: 'PJ' }),
+      setPF: () => this.setState({ tipo: 'PF' }),
+      razaoSocial: s.razaoSocial,
+      setRazaoSocial: (e) => this.setState({ razaoSocial: e.target.value }),
+      razaoBorder: razaoError ? errBorder : okBorder,
+      razaoError,
+      cnpj: s.cnpj,
+      setCnpj: (e) => this.setState({ cnpj: e.target.value }),
+      cnpjBorder: cnpjError ? errBorder : okBorder,
+      cnpjError,
+      email: s.email,
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      emailBorder: emailError ? errBorder : okBorder,
+      emailError,
+      handleSave: () => this.setState({ submitted: true }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

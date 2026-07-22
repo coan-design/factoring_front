@@ -18,8 +18,8 @@ const CLIENTE = {
   id: 'cli-1',
   tipoCliente: 'PESSOA_JURIDICA',
   status: 'ATIVO',
-  documento: '12.345.678/0001-90',
-  nomeFantasia: 'Fecal Distribuidora',
+  cpfCnpj: '12.345.678/0001-90',
+  nome: 'Fecal Distribuidora',
   enderecoId: 'end-1',
 };
 
@@ -31,7 +31,7 @@ const RECEBIVEL = {
   valorAberto: 18400,
   dataVencimento: '2026-08-22T00:00:00.000Z',
   status: 'PENDENTE',
-  numeroDuplicata: 'DP-88213',
+  numeroNotaFiscal: 'DP-88213',
 };
 
 const NEGOCIACAO_CRIADA = {

@@ -321,7 +321,7 @@ export function NegociacaoWizardPage() {
                   >
                     <div>
                       <div className="text-[13.5px] font-semibold">{nomeExibicaoCliente(c)}</div>
-                      <div className="mt-0.5 text-xs text-muted">{c.documento}</div>
+                      <div className="mt-0.5 text-xs text-muted">{c.cpfCnpj}</div>
                     </div>
                     {cliente?.id === c.id && (
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-petroleo-interativo">
@@ -385,7 +385,7 @@ export function NegociacaoWizardPage() {
                               {r.tipo === 'DUPLICATA' ? 'Duplicata' : 'Cheque'}
                             </div>
                             <div className="tabnum mt-0.5 font-mono text-xs text-muted">
-                              {r.numeroDuplicata ?? r.numeroCheque ?? r.id.slice(0, 8)}
+                              {r.numeroNotaFiscal ?? r.numeroCheque ?? r.id.slice(0, 8)}
                             </div>
                           </td>
                           <td className="px-[18px] py-3.5">

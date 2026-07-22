@@ -12,13 +12,16 @@ import { useCriarRecebivel, type CriarRecebivelPayload } from '../hooks/useCriar
 interface RecebivelFormValues {
   clienteId: string;
   valorNominal: number;
+  dataEmissao: string;
   dataVencimento: string;
-  numeroDuplicata?: string;
   numeroNotaFiscal?: string;
+  aceite?: boolean;
   sacado?: string;
   banco?: string;
   agencia?: string;
+  conta?: string;
   numeroCheque?: string;
+  dataBomPara?: string;
   emitente?: string;
 }
 
@@ -43,14 +46,22 @@ export function RecebivelForm() {
       tipo,
       clienteId: values.clienteId,
       valorNominal: Number(values.valorNominal),
+      dataEmissao: values.dataEmissao,
       dataVencimento: values.dataVencimento,
       ...(tipo === 'DUPLICATA'
-        ? { numeroDuplicata: values.numeroDuplicata, numeroNotaFiscal: values.numeroNotaFiscal, sacado: values.sacado }
-        : { banco: values.banco, agencia: values.agencia, numeroCheque: values.numeroCheque, emitente: values.emitente }),
+        ? { numeroNotaFiscal: values.numeroNotaFiscal, aceite: values.aceite ?? false, sacado: values.sacado }
+        : {
+            banco: values.banco,
+            agencia: values.agencia,
+            conta: values.conta,
+            numeroCheque: values.numeroCheque,
+            dataBomPara: values.dataBomPara,
+            emitente: values.emitente,
+          }),
     };
     try {
-      await criarRecebivel.mutateAsync(payload);
-      navigate('/recebiveis', { replace: true });
+      const criado = await criarRecebivel.mutateAsync(payload);
+      navigate(`/recebiveis/${criado.id}`, { replace: true });
     } catch (error) {
       setFormError(mapApiErrorsToForm(error, setError));
     }
@@ -148,6 +159,20 @@ export function RecebivelForm() {
                 )}
               </div>
               <div>
+                <label htmlFor="dataEmissao" className="text-[12.5px] font-medium text-muted-foreground">
+                  Data de emissão
+                </label>
+                <input
+                  id="dataEmissao"
+                  type="date"
+                  className="tabnum mt-1.5 w-full rounded-control border border-border px-3 py-2.5 font-mono text-[13.5px]"
+                  {...register('dataEmissao', { required: 'Informe a emissão' })}
+                />
+                {errors.dataEmissao && (
+                  <p className="mt-1 text-xs text-vermelho-critico">{errors.dataEmissao.message}</p>
+                )}
+              </div>
+              <div>
                 <label htmlFor="dataVencimento" className="text-[12.5px] font-medium text-muted-foreground">
                   Data de vencimento
                 </label>
@@ -171,6 +196,7 @@ export function RecebivelForm() {
                 <div className="grid grid-cols-2 gap-4">
                   <TextField label="Banco" placeholder="Ex: Itaú Unibanco" register={register('banco', { required: 'Informe o banco' })} error={errors.banco} />
                   <TextField label="Agência" placeholder="0000" mono register={register('agencia', { required: 'Informe a agência' })} error={errors.agencia} />
+                  <TextField label="Conta" placeholder="00000-0" mono register={register('conta', { required: 'Informe a conta' })} error={errors.conta} />
                   <TextField
                     label="Número do cheque"
                     placeholder="000000"
@@ -179,22 +205,35 @@ export function RecebivelForm() {
                     error={errors.numeroCheque}
                   />
                   <TextField label="Emitente" placeholder="Nome no cheque" register={register('emitente', { required: 'Informe o emitente' })} error={errors.emitente} />
+                  <div>
+                    <label htmlFor="dataBomPara" className="text-[12.5px] font-medium text-muted-foreground">
+                      Bom para
+                    </label>
+                    <input
+                      id="dataBomPara"
+                      type="date"
+                      className="tabnum mt-1.5 w-full rounded-control border border-border px-3 py-2.5 font-mono text-[13.5px]"
+                      {...register('dataBomPara', { required: 'Informe o "bom para"' })}
+                    />
+                    {errors.dataBomPara && (
+                      <p className="mt-1 text-xs text-vermelho-critico">{errors.dataBomPara.message}</p>
+                    )}
+                  </div>
                 </div>
               </>
             ) : (
               <>
                 <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">Dados da duplicata</div>
                 <div className="grid grid-cols-2 gap-4">
-                  <TextField
-                    label="Número da duplicata"
-                    placeholder="DP-00000"
-                    mono
-                    register={register('numeroDuplicata', { required: 'Informe o número da duplicata' })}
-                    error={errors.numeroDuplicata}
-                  />
                   <TextField label="Nota fiscal" placeholder="Nº NF-e" mono register={register('numeroNotaFiscal', { required: 'Informe a nota fiscal' })} error={errors.numeroNotaFiscal} />
                   <div className="col-span-2">
                     <TextField label="Sacado" placeholder="Empresa devedora da duplicata" register={register('sacado', { required: 'Informe o sacado' })} error={errors.sacado} />
+                  </div>
+                  <div className="col-span-2 flex items-center gap-2">
+                    <input id="aceite" type="checkbox" className="h-4 w-4" {...register('aceite')} />
+                    <label htmlFor="aceite" className="text-[12.5px] font-medium text-muted-foreground">
+                      Duplicata com aceite
+                    </label>
                   </div>
                 </div>
               </>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    select, input { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="negociacoes" user-role="OPERADOR" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;">Início / Negociações</div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Negociações</div>
+      </div>
+      <a href="NegociacoesWizard.dc.html" style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; text-decoration: none; font-family: inherit; display: flex; align-items: center; gap: 6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Nova negociação
+      </a>
+    </div>
+
+    <div style="padding: 32px 40px;">
+
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+        <div style="flex: 1; max-width: 340px; position: relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Buscar por número, título ou cliente" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
+        </div>
+        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
+          <option>Todos os status</option>
+          <option>Em andamento</option>
+          <option>Finalizada</option>
+          <option>Cancelada</option>
+        </select>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow-x: auto;">
+        <table style="width: 100%; min-width: 880px; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #FAFBFA;">
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Negociação</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Cliente</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Aberta em</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Valor bruto</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">A receber</th>
+              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Status</th>
+              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
+              <tr style="border-bottom: 1px solid #EEF0EF;" style-hover="background: #FAFBFA;">
+                <td style="padding: 13px 20px;">
+                  <div class="tabnum" style="font-size: 13.5px; font-weight: 600; color: #123B3D; font-family: 'IBM Plex Mono', monospace;">{{ row.id }}</div>
+                  <div style="font-size: 12px; color: #6B7473; margin-top: 2px;">{{ row.titulo }}</div>
+                </td>
+                <td style="padding: 13px 20px; font-size: 13.5px;">{{ row.client }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; color: #4B5453;">{{ row.date }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ row.bruto }}</td>
+                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; font-weight: 600; text-align: right; font-family: 'IBM Plex Mono', monospace; color: {{ row.aReceberColor }};">{{ row.aReceber }}</td>
+                <td style="padding: 13px 20px;">
+                  <dc-import name="StatusBadge" label="{{ row.statusLabel }}" tone="{{ row.statusTone }}" hint-size="110px,26px"></dc-import>
+                </td>
+                <td style="padding: 13px 20px; text-align: right;">
+                  <a href="NegociacoesDetalhe.dc.html" style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: #EFF4F4; font-size: 12.5px; font-weight: 500; text-decoration: none; color: #1F6F72;">Ver detalhe</a>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const raw = [
+      { id: 'NG-2026-0341', titulo: 'Cessão de carteira julho — Fecal', client: 'Fecal Distribuidora Ltda.', date: '18/07/2026', bruto: 216900, aReceber: 142760, status: 'Em andamento' },
+      { id: 'NG-2026-0340', titulo: 'Cessão avulsa — Vitória', client: 'Metalúrgica Vitória S.A.', date: '17/07/2026', bruto: 96740, aReceber: 0, status: 'Finalizada' },
+      { id: 'NG-2026-0339', titulo: 'Cessão de duplicatas junho', client: 'Comércio Rio Bonito ME', date: '15/07/2026', bruto: 58200, aReceber: 0, status: 'Finalizada' },
+      { id: 'NG-2026-0338', titulo: 'Cessão frota — cancelada', client: 'Auto Peças Nordeste Ltda.', date: '14/07/2026', bruto: 212500, aReceber: 212500, status: 'Cancelada' },
+      { id: 'NG-2026-0337', titulo: 'Cessão de carteira — Alvorada', client: 'Distribuidora Alvorada', date: '12/07/2026', bruto: 134900, aReceber: 61200, status: 'Em andamento' },
+    ];
+    const toneMap = { 'Em andamento': 'info', Finalizada: 'success', Cancelada: 'neutral' };
+    const fmt = (n) => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    const rows = raw.map(r => ({
+      ...r,
+      bruto: fmt(r.bruto),
+      aReceber: fmt(r.aReceber),
+      aReceberColor: r.status === 'Finalizada' ? '#4B5453' : r.aReceber > 0 ? '#9A5B13' : '#4B5453',
+      statusLabel: r.status,
+      statusTone: toneMap[r.status],
+    }));
+    return { rows };
+  }
+}
+
+</script>
+</body>
+</html>

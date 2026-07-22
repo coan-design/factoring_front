@@ -30,7 +30,7 @@ describe('RecebivelForm', () => {
     mockedPost.mockReset();
     mockedGet.mockResolvedValue({
       data: {
-        data: [{ id: 'cli-1', tipoCliente: 'PESSOA_JURIDICA', status: 'ATIVO', documento: '12.345.678/0001-90', nomeFantasia: 'Fecal Distribuidora', enderecoId: 'end-1' }],
+        data: [{ id: 'cli-1', tipoCliente: 'PESSOA_JURIDICA', status: 'ATIVO', cpfCnpj: '12.345.678/0001-90', nome: 'Fecal Distribuidora', enderecoId: 'end-1' }],
         total: 1,
         page: 1,
         pageSize: 100,
@@ -51,7 +51,7 @@ describe('RecebivelForm', () => {
     await screen.findByLabelText('Banco');
     await userEvent.click(screen.getByRole('button', { name: 'Duplicata' }));
     expect(await screen.findByLabelText('Sacado')).toBeInTheDocument();
-    expect(screen.getByLabelText('Número da duplicata')).toBeInTheDocument();
+    expect(screen.getByLabelText('Nota fiscal')).toBeInTheDocument();
     expect(screen.queryByLabelText('Banco')).not.toBeInTheDocument();
   });
 
@@ -62,11 +62,14 @@ describe('RecebivelForm', () => {
 
     await userEvent.selectOptions(screen.getByLabelText('Cliente (cedente)'), 'cli-1');
     await userEvent.type(screen.getByLabelText('Valor de face'), '9750');
+    await userEvent.type(screen.getByLabelText('Data de emissão'), '2026-07-01');
     await userEvent.type(screen.getByLabelText('Data de vencimento'), '2026-07-10');
     await userEvent.type(screen.getByLabelText('Banco'), 'Itaú Unibanco');
     await userEvent.type(screen.getByLabelText('Agência'), '1234');
+    await userEvent.type(screen.getByLabelText('Conta'), '00045-6');
     await userEvent.type(screen.getByLabelText('Número do cheque'), '000452');
     await userEvent.type(screen.getByLabelText('Emitente'), 'João da Silva');
+    await userEvent.type(screen.getByLabelText('Bom para'), '2026-07-10');
 
     await userEvent.click(screen.getByRole('button', { name: 'Salvar recebível' }));
 
@@ -75,10 +78,13 @@ describe('RecebivelForm', () => {
         tipo: 'CHEQUE',
         clienteId: 'cli-1',
         valorNominal: 9750,
+        dataEmissao: '2026-07-01',
         dataVencimento: '2026-07-10',
         banco: 'Itaú Unibanco',
         agencia: '1234',
+        conta: '00045-6',
         numeroCheque: '000452',
+        dataBomPara: '2026-07-10',
         emitente: 'João da Silva',
       });
     });

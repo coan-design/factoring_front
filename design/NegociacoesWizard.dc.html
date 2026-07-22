@@ -55,25 +55,12 @@
           <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 22px; margin-bottom: 20px;">
             <div style="display: flex; flex-direction: column; gap: 16px;">
               <div>
-                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Número da negociação</label>
-                <input value="{{ numero }}" onChange="{{ setNumero }}" placeholder="Ex: NG-2026-0342" class="tabnum" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; font-family: 'IBM Plex Mono', monospace;" />
-              </div>
-              <div>
                 <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Título da negociação</label>
                 <input value="{{ titulo }}" onChange="{{ setTitulo }}" placeholder="Ex: Cessão de carteira julho — Fecal" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px;" />
               </div>
               <div>
                 <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Descrição</label>
                 <textarea value="{{ descricao }}" onChange="{{ setDescricao }}" placeholder="Contexto da negociação, observações internas" rows="3" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; resize: vertical;"></textarea>
-              </div>
-              <div>
-                <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Forma de pagamento</label>
-                <select value="{{ formaPagamento }}" onChange="{{ setFormaPagamento }}" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; font-family: inherit;">
-                  <option value="PIX">PIX</option>
-                  <option value="TED">TED</option>
-                  <option value="BOLETO">Boleto</option>
-                  <option value="DINHEIRO">Dinheiro</option>
-                </select>
               </div>
             </div>
           </div>
@@ -126,20 +113,6 @@
                     <td style="padding: 13px 18px;">
                       <div style="font-size: 13px; color: #4B5453;">{{ it.detailLine1 }}</div>
                       <sc-if value="{{ it.isLoan }}"><div style="font-size: 12px; color: #9A5B13; margin-top: 3px; font-weight: 600;">Entra inteiro · {{ it.detailLine2 }}</div></sc-if>
-                      <sc-if value="{{ it.showDesagioInputs }}">
-                        <div onClick="{{ it.stopPropagation }}" style="display: flex; gap: 12px; margin-top: 8px;">
-                          <div style="display: flex; align-items: center; gap: 5px;">
-                            <span style="font-size: 11.5px; color: #6B7473;">Prazo</span>
-                            <input type="number" min="0" value="{{ it.quantidadeDias }}" onChange="{{ it.setQuantidadeDias }}" class="tabnum" style="width: 52px; box-sizing: border-box; padding: 4px 6px; border-radius: 5px; border: 1px solid #DDE2E1; font-size: 12px; text-align: right; font-family: 'IBM Plex Mono', monospace;" />
-                            <span style="font-size: 11.5px; color: #6B7473;">dias</span>
-                          </div>
-                          <div style="display: flex; align-items: center; gap: 5px;">
-                            <span style="font-size: 11.5px; color: #6B7473;">Deságio</span>
-                            <input type="number" min="0" step="0.01" value="{{ it.taxaDesagio }}" onChange="{{ it.setTaxaDesagio }}" class="tabnum" style="width: 52px; box-sizing: border-box; padding: 4px 6px; border-radius: 5px; border: 1px solid #DDE2E1; font-size: 12px; text-align: right; font-family: 'IBM Plex Mono', monospace;" />
-                            <span style="font-size: 11.5px; color: #6B7473;">% a.m.</span>
-                          </div>
-                        </div>
-                      </sc-if>
                     </td>
                     <td class="tabnum" style="padding: 13px 18px; font-size: 13.5px; font-weight: 600; text-align: right; font-family: 'IBM Plex Mono', monospace;">{{ it.value }}</td>
                   </tr>
@@ -204,7 +177,7 @@
       <sc-if value="{{ isStep4 }}">
         <div style="max-width: 620px;">
           <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">Confirmar negociação</div>
-          <div style="font-size: 13px; color: #6B7473; margin-bottom: 18px;">Revise o resumo abaixo antes de enviar para aprovação. A negociação é criada em análise e segue para o status "Em andamento" (aprovada) — finalizar só fica disponível depois, quando o saldo a receber chegar a R$&nbsp;0,00.</div>
+          <div style="font-size: 13px; color: #6B7473; margin-bottom: 18px;">Revise o resumo abaixo antes de finalizar.</div>
           <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 24px;">
             <div style="font-size: 15px; font-weight: 600;">{{ tituloOrDefault }}</div>
             <div style="font-size: 12.5px; color: #6B7473; margin-top: 3px;">{{ selectedClientName }} · {{ selectedCount }} itens</div>
@@ -242,8 +215,8 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = {
-    step: 1, clientId: 'fecal', numero: '', titulo: '', descricao: '', formaPagamento: 'PIX',
-    selectedIds: new Set(['r1', 'r2', 'e1']), itemParams: {}, tarifasVal: null,
+    step: 1, clientId: 'fecal', titulo: '', descricao: '',
+    selectedIds: new Set(['r1', 'r2', 'e1']), tarifasVal: null,
   };
 
   clients = [
@@ -252,32 +225,15 @@ class Component extends DCLogic {
     { id: 'alvorada', name: 'Distribuidora Alvorada', doc: '33.444.555/0001-66', available: 2 },
   ];
 
-  // Empréstimos entram inteiros (todas as parcelas) — valorLiquido aqui é o
-  // principal já desembolsado, um fato fixo, sem deságio. Recebíveis não têm
-  // valorLiquido fixo: o back-end calcula a partir de { quantidadeDias, taxaDesagio }
-  // enviados em POST /negociacoes/:id/itens-recebivel (ver calcularValorLiquidoRecebivel).
   items = [
-    { id: 'r1', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88213', valorFace: 18400, valorPago: 0, detailLine1: 'Vence 22/07/2026 · sacado Mercado Central SP' },
-    { id: 'r2', kind: 'recebivel', type: 'Cheque', ref: '000452', valorFace: 9750, valorPago: 0, detailLine1: 'Vence 10/07/2026 · Banco Itaú' },
+    { id: 'r1', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88213', valorLiquido: 17800, valorFace: 18400, valorPago: 0, detailLine1: 'Vence 22/07/2026 · sacado Mercado Central SP' },
+    { id: 'r2', kind: 'recebivel', type: 'Cheque', ref: '000452', valorLiquido: 9400, valorFace: 9750, valorPago: 0, detailLine1: 'Vence 10/07/2026 · Banco Itaú' },
     { id: 'e1', kind: 'emprestimo', type: 'Empréstimo', ref: 'EMP-2026-0072', valorLiquido: 180000, valorFace: 206640, valorPago: 103320, detailLine1: 'Contratado 15/01/2026 · 12 parcelas de R$ 17.220,00' },
-    { id: 'r3', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88255', valorFace: 12100, valorPago: 0, detailLine1: 'Vence 28/06/2026 · sacado Supermix Alimentos' },
+    { id: 'r3', kind: 'recebivel', type: 'Duplicata', ref: 'DP-88255', valorLiquido: 11700, valorFace: 12100, valorPago: 0, detailLine1: 'Vence 28/06/2026 · sacado Supermix Alimentos' },
   ];
 
   fmt(n) {
     return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  itemParams(id) {
-    return this.state.itemParams[id] || { quantidadeDias: 30, taxaDesagio: 2.5 };
-  }
-
-  // Fórmula ILUSTRATIVA, só para dar uma prévia visual coerente com prazo x
-  // taxa neste mockup — o back-end é a fonte da verdade para
-  // valorConsiderado/valorDesagio/valorLiquido reais. Não reproduzir esta
-  // conta no frontend real; ela existe só aqui para o design ficar navegável.
-  calcularValorLiquidoRecebivel(valorFace, quantidadeDias, taxaDesagio) {
-    const desagio = valorFace * (taxaDesagio / 100) * (quantidadeDias / 30);
-    return Math.max(0, valorFace - desagio);
   }
 
   renderVals() {
@@ -307,65 +263,40 @@ class Component extends DCLogic {
       onClick: () => this.setState({ clientId: c.id }),
     }));
 
-    // Uma única passada calculando o valorLiquido de cada item (via deságio
-    // para recebíveis, fixo para empréstimos) — tanto os cards do item na
-    // tabela quanto os totalizadores dos passos 3/4 usam este mesmo valor,
-    // nunca dois números diferentes para a "mesma" coisa.
-    const itemsCalc = this.items.map(it => {
+    const items = this.items.map(it => {
       const checked = this.state.selectedIds.has(it.id);
       const isLoan = it.kind === 'emprestimo';
-      const params = this.itemParams(it.id);
-      const valorLiquidoN = isLoan
-        ? it.valorLiquido
-        : this.calcularValorLiquidoRecebivel(it.valorFace, params.quantidadeDias, params.taxaDesagio);
-      return { ...it, checked, isLoan, params, valorLiquidoN };
+      return {
+        type: it.type, ref: it.ref, detailLine1: it.detailLine1,
+        isLoan,
+        detailLine2: isLoan ? `${it.valorPago > 0 ? '6 pagas' : '0 pagas'} de 12` : '',
+        value: this.fmt(it.valorLiquido),
+        checked,
+        checkBg: checked ? '#1F6F72' : 'white',
+        checkBorder: checked ? '#1F6F72' : '#C7CDCC',
+        bg: checked ? '#F6FAFA' : 'white',
+        toggle: () => this.setState(s => {
+          const next = new Set(s.selectedIds);
+          next.has(it.id) ? next.delete(it.id) : next.add(it.id);
+          return { selectedIds: next };
+        }),
+      };
     });
 
-    const items = itemsCalc.map(it => ({
-      type: it.type, ref: it.ref, detailLine1: it.detailLine1,
-      isLoan: it.isLoan,
-      detailLine2: it.isLoan ? `${it.valorPago > 0 ? '6 pagas' : '0 pagas'} de 12` : '',
-      value: this.fmt(it.valorLiquidoN),
-      checked: it.checked,
-      showDesagioInputs: it.checked && !it.isLoan,
-      quantidadeDias: it.params.quantidadeDias,
-      taxaDesagio: it.params.taxaDesagio,
-      setQuantidadeDias: (e) => this.setState(s => ({
-        itemParams: { ...s.itemParams, [it.id]: { ...this.itemParams(it.id), quantidadeDias: parseInt(e.target.value, 10) || 0 } },
-      })),
-      setTaxaDesagio: (e) => this.setState(s => ({
-        itemParams: { ...s.itemParams, [it.id]: { ...this.itemParams(it.id), taxaDesagio: parseFloat(e.target.value) || 0 } },
-      })),
-      stopPropagation: (e) => e.stopPropagation(),
-      checkBg: it.checked ? '#1F6F72' : 'white',
-      checkBorder: it.checked ? '#1F6F72' : '#C7CDCC',
-      bg: it.checked ? '#F6FAFA' : 'white',
-      toggle: () => this.setState(s => {
-        const next = new Set(s.selectedIds);
-        next.has(it.id) ? next.delete(it.id) : next.add(it.id);
-        return { selectedIds: next };
-      }),
-    }));
-
-    const selected = itemsCalc.filter(it => it.checked);
-    const valorBrutoN = selected.reduce((a, b) => a + b.valorLiquidoN, 0);
+    const selected = this.items.filter(it => this.state.selectedIds.has(it.id));
+    const valorBrutoN = selected.reduce((a, b) => a + b.valorLiquido, 0);
     const valorTotalReceberN = selected.reduce((a, b) => a + b.valorFace, 0);
     const valorPagoAnteriorN = selected.reduce((a, b) => a + b.valorPago, 0);
-    // Tarifas são inteiramente definidas pelo usuário (valorTarifas em
-    // POST /negociacoes) — nada de sugerir um valor "mágico" por item.
-    const tarifasN = this.state.tarifasVal ?? 0;
+    const tarifasN = this.state.tarifasVal ?? (150 + selected.length * 20);
     const valorAReceberN = Math.max(0, valorTotalReceberN - valorPagoAnteriorN - tarifasN);
     const progress = valorTotalReceberN > 0 ? Math.min(100, (valorPagoAnteriorN / valorTotalReceberN) * 100) : 0;
 
     return {
       steps,
       isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4,
-      numero: this.state.numero, titulo: this.state.titulo, descricao: this.state.descricao,
-      formaPagamento: this.state.formaPagamento,
-      setNumero: (e) => this.setState({ numero: e.target.value }),
+      titulo: this.state.titulo, descricao: this.state.descricao,
       setTitulo: (e) => this.setState({ titulo: e.target.value }),
       setDescricao: (e) => this.setState({ descricao: e.target.value }),
-      setFormaPagamento: (e) => this.setState({ formaPagamento: e.target.value }),
       tituloOrDefault: this.state.titulo || 'Negociação sem título',
       clientOptions,
       selectedClientName: client ? client.name : '',
@@ -383,10 +314,7 @@ class Component extends DCLogic {
       hideTotalizer: step !== 2,
       canBack: step > 1,
       canNext: step < 5,
-      // O wizard cria a negociação e a envia para aprovação (EM_ANALISE -> APROVADA).
-      // "Finalizar" (APROVADA -> FINALIZADA) só acontece depois, na tela de detalhe,
-      // quando o saldo a receber chegar a zero — não é uma ação do wizard.
-      nextLabel: step === 4 ? 'Aprovar negociação' : 'Continuar',
+      nextLabel: step === 4 ? 'Finalizar negociação' : 'Continuar',
       back: () => this.setState(s => ({ step: Math.max(1, s.step - 1) })),
       next: () => this.setState(s => ({ step: Math.min(4, s.step + 1) })),
     };

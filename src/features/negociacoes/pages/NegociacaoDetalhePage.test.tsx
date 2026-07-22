@@ -43,7 +43,7 @@ const NEGOCIACAO_APROVADA_SALDO_ZERO = {
         valorAberto: 200,
         dataVencimento: '2026-07-22T00:00:00.000Z',
         status: 'NEGOCIADO',
-        numeroDuplicata: 'DP-88213',
+        numeroNotaFiscal: 'DP-88213',
       },
     },
   ],

@@ -1,15 +1,23 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
-import { ComingSoon } from './components/shared/ComingSoon';
 import { LoginPage } from './features/auth/pages/LoginPage';
 import { DashboardPage } from './features/dashboard/pages/DashboardPage';
 import { ClientesListPage } from './features/clientes/pages/ClientesListPage';
 import { ClienteDetailPage } from './features/clientes/pages/ClienteDetailPage';
+import { ClienteFormPage } from './features/clientes/pages/ClienteFormPage';
 import { RecebiveisListPage } from './features/recebiveis/pages/RecebiveisListPage';
 import { RecebivelForm } from './features/recebiveis/components/RecebivelForm';
+import { RecebiveisDetalhePage } from './features/recebiveis/pages/RecebiveisDetalhePage';
 import { EmprestimoDetailPage } from './features/emprestimos/pages/EmprestimoDetailPage';
+import { EmprestimosListPage } from './features/emprestimos/pages/EmprestimosListPage';
+import { EmprestimosFormPage } from './features/emprestimos/pages/EmprestimosFormPage';
 import { NegociacaoWizardPage } from './features/negociacoes/pages/NegociacaoWizardPage';
 import { NegociacaoDetalhePage } from './features/negociacoes/pages/NegociacaoDetalhePage';
+import { NegociacoesListPage } from './features/negociacoes/pages/NegociacoesListPage';
+import { UsuariosListPage } from './features/usuarios/pages/UsuariosListPage';
+import { UsuarioFormPage } from './features/usuarios/pages/UsuarioFormPage';
+import { UsuarioEditarPage } from './features/usuarios/pages/UsuarioEditarPage';
+import { MeuPerfilPage } from './features/perfil/pages/MeuPerfilPage';
 
 export function AppRoutes() {
   return (
@@ -37,16 +45,16 @@ export function AppRoutes() {
         <Route
           path="/clientes/novo"
           element={
-            <ProtectedRoute>
-              <ComingSoon title="Novo cliente" />
+            <ProtectedRoute allowedPerfis={['ADMIN', 'OPERADOR']}>
+              <ClienteFormPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/clientes/:id/editar"
           element={
-            <ProtectedRoute>
-              <ComingSoon title="Editar cliente" />
+            <ProtectedRoute allowedPerfis={['ADMIN', 'OPERADOR']}>
+              <ClienteFormPage />
             </ProtectedRoute>
           }
         />
@@ -70,8 +78,16 @@ export function AppRoutes() {
         <Route
           path="/recebiveis/novo"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedPerfis={['ADMIN', 'OPERADOR']}>
               <RecebivelForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recebiveis/:id"
+          element={
+            <ProtectedRoute>
+              <RecebiveisDetalhePage />
             </ProtectedRoute>
           }
         />
@@ -80,15 +96,23 @@ export function AppRoutes() {
           path="/emprestimos"
           element={
             <ProtectedRoute>
-              <ComingSoon title="Empréstimos" />
+              <EmprestimosListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/emprestimos/novo"
+          element={
+            <ProtectedRoute allowedPerfis={['ADMIN', 'OPERADOR']}>
+              <EmprestimosFormPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/emprestimos/:id/editar"
           element={
-            <ProtectedRoute>
-              <ComingSoon title="Editar contrato de empréstimo" />
+            <ProtectedRoute allowedPerfis={['ADMIN', 'OPERADOR']}>
+              <EmprestimosFormPage />
             </ProtectedRoute>
           }
         />
@@ -105,7 +129,7 @@ export function AppRoutes() {
           path="/negociacoes"
           element={
             <ProtectedRoute>
-              <ComingSoon title="Negociações" />
+              <NegociacoesListPage />
             </ProtectedRoute>
           }
         />
@@ -122,6 +146,40 @@ export function AppRoutes() {
           element={
             <ProtectedRoute>
               <NegociacaoDetalhePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/usuarios"
+          element={
+            <ProtectedRoute allowedPerfis={['ADMIN']}>
+              <UsuariosListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/usuarios/novo"
+          element={
+            <ProtectedRoute allowedPerfis={['ADMIN']}>
+              <UsuarioFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/usuarios/:id/editar"
+          element={
+            <ProtectedRoute allowedPerfis={['ADMIN']}>
+              <UsuarioEditarPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/meu-perfil"
+          element={
+            <ProtectedRoute>
+              <MeuPerfilPage />
             </ProtectedRoute>
           }
         />

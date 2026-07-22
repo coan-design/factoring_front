@@ -44,11 +44,13 @@ export function useClientesAtivos() {
   });
 }
 
+/** `status` não é um campo aceito por PATCH /clientes/:id (UpdateClienteDto não o inclui) — o backend expõe transições dedicadas. */
 export function useAlternarStatusCliente() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: StatusCliente }) => {
-      const { data } = await apiClient.patch<Cliente>(`/clientes/${id}`, { status });
+      const acao = status === 'ATIVO' ? 'ativar' : 'inativar';
+      const { data } = await apiClient.patch<Cliente>(`/clientes/${id}/${acao}`);
       return data;
     },
     onSuccess: () => {

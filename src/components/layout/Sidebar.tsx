@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/auth-store';
 
 /**
@@ -97,13 +97,34 @@ function initialsOf(name: string) {
 }
 
 export function Sidebar() {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
   const usuario = useAuthStore((s) => s.usuario);
+  const logout = useAuthStore((s) => s.logout);
 
   const width = expanded ? 236 : 72;
   const hpad = expanded ? 16 : 23;
   const userName = usuario?.nome ?? '';
   const userRole = usuario?.perfil ?? '';
+  const isAdmin = usuario?.perfil === 'ADMIN';
+
+  useEffect(() => {
+    if (!settingsOpen) return;
+    function onClickOutside(e: MouseEvent) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, [settingsOpen]);
+
+  function handleLogout() {
+    logout();
+    navigate('/login', { replace: true });
+  }
 
   return (
     <div
@@ -151,20 +172,82 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="flex flex-col gap-3 border-t border-white/[0.14] p-3">
+      <div ref={settingsRef} className="relative flex flex-col gap-3 border-t border-white/[0.14] p-3">
+        {settingsOpen && (
+          <div className="absolute inset-x-3 bottom-full mb-2 overflow-hidden rounded-[8px] bg-white shadow-[0_8px_24px_rgba(18,59,61,0.24)]">
+            <Link
+              to="/meu-perfil"
+              onClick={() => setSettingsOpen(false)}
+              className="flex items-center gap-2.5 px-3.5 py-3 text-[13px] font-medium text-grafite-texto no-underline hover:bg-neutro-base"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5453" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="8" r="3.2" />
+                <path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" />
+              </svg>
+              Meu perfil
+            </Link>
+            {isAdmin && (
+              <>
+                <div className="h-px bg-border-subtle" />
+                <Link
+                  to="/usuarios"
+                  onClick={() => setSettingsOpen(false)}
+                  className="flex items-center gap-2.5 px-3.5 py-3 text-[13px] font-medium text-grafite-texto no-underline hover:bg-neutro-base"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5453" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="9" cy="8" r="3" />
+                    <path d="M3.5 19c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6" />
+                    <path d="M16 8.2c1.2.3 2 1.4 2 2.6M18.5 19c0-2.4-1.5-4.5-3.5-5.5" />
+                  </svg>
+                  Gerenciar usuários
+                </Link>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="flex items-center gap-2.5 px-2 py-1.5">
           <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-petroleo-interativo text-xs font-semibold">
             {userName ? initialsOf(userName) : ''}
           </div>
           {expanded && (
-            <div className="min-w-0">
-              <div className="truncate text-[13px] font-medium">{userName}</div>
-              <div className="mt-px text-[10.5px] font-semibold uppercase tracking-wide text-[#9FD1CE]">
-                {userRole}
+            <>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[13px] font-medium">{userName}</div>
+                <div className="mt-px text-[10.5px] font-semibold uppercase tracking-wide text-[#9FD1CE]">
+                  {userRole}
+                </div>
               </div>
-            </div>
+              <button
+                type="button"
+                onClick={() => setSettingsOpen((s) => !s)}
+                aria-label="Configurações"
+                className={`flex h-[26px] w-[26px] flex-shrink-0 items-center justify-center rounded-[6px] transition-colors hover:bg-white/10 ${
+                  settingsOpen ? 'text-white' : 'text-[#9FD1CE]'
+                }`}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34H9a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87V9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+                </svg>
+              </button>
+            </>
           )}
         </div>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex items-center justify-center gap-2 rounded-[7px] p-2 text-xs text-[#E7A6A0] transition-colors hover:bg-[#A8291F]/[0.16]"
+        >
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+          {expanded && <span>Sair do sistema</span>}
+        </button>
+
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}

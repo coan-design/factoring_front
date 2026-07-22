@@ -91,19 +91,8 @@ export function ClienteDetailPage() {
             <LedgerCorner tone="neutral" />
             <div className="mb-3.5 text-[13px] font-semibold">Dados cadastrais</div>
             <div className="grid grid-cols-2 gap-x-[18px] gap-y-3.5">
-              {cliente.tipoCliente === 'PESSOA_JURIDICA' ? (
-                <>
-                  <Field label="Razão social" value={cliente.razaoSocial} />
-                  <Field label="Nome fantasia" value={cliente.nomeFantasia} />
-                  <Field label="CNPJ" value={cliente.documento} mono />
-                  <Field label="Inscrição estadual" value={cliente.inscricaoEstadual} mono />
-                </>
-              ) : (
-                <>
-                  <Field label="Nome" value={cliente.nome} />
-                  <Field label="CPF" value={cliente.documento} mono />
-                </>
-              )}
+              <Field label="Nome" value={cliente.nome} />
+              <Field label={cliente.tipoCliente === 'PESSOA_JURIDICA' ? 'CNPJ' : 'CPF'} value={cliente.cpfCnpj} mono />
               <Field label="Telefone" value={cliente.telefone} />
               <Field label="E-mail" value={cliente.email} />
             </div>
@@ -115,10 +104,10 @@ export function ClienteDetailPage() {
             {cliente.endereco ? (
               <div className="grid grid-cols-2 gap-x-[18px] gap-y-3.5">
                 <div className="col-span-2">
-                  <Field label="Logradouro" value={cliente.endereco.logradouro} />
+                  <Field label="Logradouro" value={`${cliente.endereco.logradouro}, ${cliente.endereco.numero}`} />
                 </div>
                 <Field label="Bairro" value={cliente.endereco.bairro} />
-                <Field label="Cidade / UF" value={`${cliente.endereco.cidade} / ${cliente.endereco.uf}`} />
+                <Field label="Cidade / UF" value={`${cliente.endereco.cidade} / ${cliente.endereco.estado}`} />
                 <Field label="CEP" value={cliente.endereco.cep} mono />
               </div>
             ) : (

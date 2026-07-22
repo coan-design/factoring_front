@@ -37,16 +37,15 @@
 
     <div style="padding: 32px 40px;">
 
-      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+      <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center;">
+        <div style="display: inline-flex; border: 1px solid #DDE2E1; border-radius: 7px; padding: 3px; background: white;">
+          <div onClick="{{ setTabAtivos }}" style="padding: 7px 16px; border-radius: 5px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{ bgAtivos }}; color: {{ colorAtivos }};">Ativos</div>
+          <div onClick="{{ setTabInativos }}" style="padding: 7px 16px; border-radius: 5px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{ bgInativos }}; color: {{ colorInativos }};">Inativos</div>
+        </div>
         <div style="flex: 1; max-width: 340px; position: relative;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
           <input placeholder="Buscar por nome, CNPJ ou CPF" style="width: 100%; box-sizing: border-box; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white;" />
         </div>
-        <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
-          <option>Todos os status</option>
-          <option>Ativo</option>
-          <option>Inativo</option>
-        </select>
         <select style="padding: 9px 12px; border-radius: 6px; border: 1px solid #DDE2E1; font-size: 13.5px; background: white; color: #171C1C;">
           <option>Todos os tipos</option>
           <option>Pessoa Jurídica</option>
@@ -54,47 +53,63 @@
         </select>
       </div>
 
-      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow: hidden;">
-        <table style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr style="background: #FAFBFA;">
-              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Cliente</th>
-              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Tipo</th>
-              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">CNPJ/CPF</th>
-              <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Status</th>
-              <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <sc-for list="{{ clients }}" as="c" hint-placeholder-count="8">
-              <tr style="border-bottom: 1px solid #EEF0EF;" style-hover="background: #FAFBFA;">
-                <td style="padding: 13px 20px; font-size: 13.5px; font-weight: 500;"><a href="#" style="text-decoration: none;">{{ c.name }}</a></td>
-                <td style="padding: 13px 20px; font-size: 13.5px; color: #4B5453;">{{ c.type }}</td>
-                <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; color: #4B5453; font-family: 'IBM Plex Mono', monospace;">{{ c.doc }}</td>
-                <td style="padding: 13px 20px;">
-                  <dc-import name="StatusBadge" label="{{ c.statusLabel }}" tone="{{ c.statusTone }}" hint-size="90px,26px"></dc-import>
-                </td>
-                <td style="padding: 13px 20px; text-align: right;">
-                  <div style="display: inline-flex; gap: 6px;">
-                    <button style="padding: 6px 12px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #171C1C;">{{ c.toggleLabel }}</button>
-                    <button style="padding: 6px 12px; border-radius: 6px; border: none; background: #EFF4F4; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #1F6F72;">Ver detalhe</button>
-                  </div>
-                </td>
+      <sc-if value="{{ hasRows }}">
+        <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; overflow-x: auto;">
+          <table style="width: 100%; min-width: 720px; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #FAFBFA;">
+                <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Cliente</th>
+                <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Tipo</th>
+                <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">CNPJ/CPF</th>
+                <sc-if value="{{ isInativos }}"><th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Inativado em</th></sc-if>
+                <th style="text-align: left; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Status</th>
+                <th style="text-align: right; padding: 10px 20px; font-size: 11.5px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #E2E6E5;">Ações</th>
               </tr>
-            </sc-for>
-          </tbody>
-        </table>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid #E2E6E5;">
-          <div style="font-size: 12.5px; color: #6B7473;">Mostrando 1–8 de 42 clientes</div>
-          <div style="display: flex; gap: 6px;">
-            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: #F1F1F0; color: #B7BDBB; font-family: inherit;" disabled>‹</button>
-            <button style="width: 30px; height: 30px; border-radius: 6px; border: none; background: #123B3D; color: white; font-size: 12.5px; font-family: inherit;">1</button>
-            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">2</button>
-            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">3</button>
-            <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-family: inherit;">›</button>
+            </thead>
+            <tbody>
+              <sc-for list="{{ clients }}" as="c" hint-placeholder-count="6">
+                <tr style="border-bottom: 1px solid #EEF0EF;" style-hover="background: #FAFBFA;">
+                  <td style="padding: 13px 20px; font-size: 13.5px; font-weight: 500;"><a href="#" style="text-decoration: none;">{{ c.name }}</a></td>
+                  <td style="padding: 13px 20px; font-size: 13.5px; color: #4B5453;">{{ c.type }}</td>
+                  <td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; color: #4B5453; font-family: 'IBM Plex Mono', monospace;">{{ c.doc }}</td>
+                  <sc-if value="{{ isInativos }}"><td class="tabnum" style="padding: 13px 20px; font-size: 13.5px; color: #6B7473;">{{ c.inactiveSince }}</td></sc-if>
+                  <td style="padding: 13px 20px;">
+                    <dc-import name="StatusBadge" label="{{ c.statusLabel }}" tone="{{ c.statusTone }}" hint-size="90px,26px"></dc-import>
+                  </td>
+                  <td style="padding: 13px 20px; text-align: right;">
+                    <div style="display: inline-flex; gap: 6px;">
+                      <button style="padding: 6px 12px; border-radius: 6px; border: none; background: #EFF4F4; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #1F6F72;">{{ c.toggleLabel }}</button>
+                      <button style="padding: 6px 12px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 12.5px; font-weight: 500; cursor: pointer; font-family: inherit; color: #171C1C;">Ver detalhe</button>
+                    </div>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid #E2E6E5;">
+            <div style="font-size: 12.5px; color: #6B7473;">{{ countLabel }}</div>
+            <sc-if value="{{ isAtivos }}">
+              <div style="display: flex; gap: 6px;">
+                <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: #F1F1F0; color: #B7BDBB; font-family: inherit;" disabled>‹</button>
+                <button style="width: 30px; height: 30px; border-radius: 6px; border: none; background: #123B3D; color: white; font-size: 12.5px; font-family: inherit;">1</button>
+                <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">2</button>
+                <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-size: 12.5px; font-family: inherit;">3</button>
+                <button style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; color: #171C1C; font-family: inherit;">›</button>
+              </div>
+            </sc-if>
           </div>
         </div>
-      </div>
+      </sc-if>
+
+      <sc-if value="{{ isEmpty }}">
+        <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 64px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EDEFEE; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B9493" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M4 4l16 16"/></svg>
+          </div>
+          <div style="font-size: 14.5px; font-weight: 600;">Nenhum cliente inativo</div>
+          <div style="font-size: 13px; color: #6B7473; margin-top: 6px; max-width: 320px;">Todos os clientes cadastrados estão ativos no momento.</div>
+        </div>
+      </sc-if>
 
     </div>
   </div>
@@ -103,23 +118,39 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  state = { tab: 'ativos' };
+
+  allClients = [
+    { name: 'Fecal Distribuidora Ltda.', type: 'Jurídica', doc: '12.345.678/0001-90', status: 'Ativo' },
+    { name: 'Metalúrgica Vitória S.A.', type: 'Jurídica', doc: '98.765.432/0001-11', status: 'Ativo' },
+    { name: 'Comércio Rio Bonito ME', type: 'Jurídica', doc: '11.222.333/0001-44', status: 'Ativo' },
+    { name: 'Auto Peças Nordeste Ltda.', type: 'Jurídica', doc: '22.333.444/0001-55', status: 'Inativo', inactiveSince: '02/05/2026' },
+    { name: 'Distribuidora Alvorada', type: 'Jurídica', doc: '33.444.555/0001-66', status: 'Ativo' },
+    { name: 'João Carlos Menezes', type: 'Física', doc: '123.456.789-00', status: 'Ativo' },
+    { name: 'Têxtil Bom Retiro Ltda.', type: 'Jurídica', doc: '44.555.666/0001-77', status: 'Ativo' },
+    { name: 'Mariana Souza Ferreira', type: 'Física', doc: '987.654.321-00', status: 'Inativo', inactiveSince: '14/03/2026' },
+  ];
+
   renderVals() {
-    const clients = [
-      { name: 'Fecal Distribuidora Ltda.', type: 'Jurídica', doc: '12.345.678/0001-90', status: 'Ativo' },
-      { name: 'Metalúrgica Vitória S.A.', type: 'Jurídica', doc: '98.765.432/0001-11', status: 'Ativo' },
-      { name: 'Comércio Rio Bonito ME', type: 'Jurídica', doc: '11.222.333/0001-44', status: 'Ativo' },
-      { name: 'Auto Peças Nordeste Ltda.', type: 'Jurídica', doc: '22.333.444/0001-55', status: 'Inativo' },
-      { name: 'Distribuidora Alvorada', type: 'Jurídica', doc: '33.444.555/0001-66', status: 'Ativo' },
-      { name: 'João Carlos Menezes', type: 'Física', doc: '123.456.789-00', status: 'Ativo' },
-      { name: 'Têxtil Bom Retiro Ltda.', type: 'Jurídica', doc: '44.555.666/0001-77', status: 'Ativo' },
-      { name: 'Mariana Souza Ferreira', type: 'Física', doc: '987.654.321-00', status: 'Inativo' },
-    ].map(c => ({
+    const isAtivos = this.state.tab === 'ativos';
+    const filtered = this.allClients.filter(c => (isAtivos ? c.status === 'Ativo' : c.status === 'Inativo'));
+    const clients = filtered.map(c => ({
       ...c,
       statusLabel: c.status,
       statusTone: c.status === 'Ativo' ? 'success' : 'neutral',
-      toggleLabel: c.status === 'Ativo' ? 'Inativar' : 'Ativar',
+      toggleLabel: c.status === 'Ativo' ? 'Inativar' : 'Reativar',
     }));
-    return { clients };
+    return {
+      isAtivos, isInativos: !isAtivos,
+      bgAtivos: isAtivos ? '#123B3D' : 'transparent', colorAtivos: isAtivos ? 'white' : '#4B5453',
+      bgInativos: !isAtivos ? '#123B3D' : 'transparent', colorInativos: !isAtivos ? 'white' : '#4B5453',
+      setTabAtivos: () => this.setState({ tab: 'ativos' }),
+      setTabInativos: () => this.setState({ tab: 'inativos' }),
+      clients,
+      hasRows: clients.length > 0,
+      isEmpty: clients.length === 0,
+      countLabel: isAtivos ? 'Mostrando 1–' + clients.length + ' de 40 clientes' : `${clients.length} cliente${clients.length === 1 ? '' : 's'} inativo${clients.length === 1 ? '' : 's'}`,
+    };
   }
 }
 

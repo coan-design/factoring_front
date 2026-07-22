@@ -10,11 +10,12 @@ export const STATUS_RECEBIVEL_LIST: StatusRecebivel[] = [
 ];
 
 /**
- * Campos condicionais por tipo confirmados em
- * design/RecebiveisFormulario.dc.html: Duplicata tem número da duplicata +
- * nota fiscal + sacado (empresa devedora); Cheque tem banco + agência +
- * número do cheque + emitente. Nomes de campo inferidos do mockup —
- * confirme contra o Swagger antes de considerar definitivo.
+ * Campos conferidos contra CreateRecebivelDto/Prisma (factoring_api).
+ * `dataEmissao` é obrigatório sempre. Para CHEQUE, banco/agência/conta/
+ * numeroCheque/dataBomPara/emitente são todos obrigatórios; para
+ * DUPLICATA, numeroNotaFiscal/aceite/sacado são obrigatórios. O campo
+ * `numeroDuplicata` do mockup não existe no schema real — a referência da
+ * duplicata é a própria nota fiscal (`numeroNotaFiscal`).
  */
 export interface Recebivel {
   id: string;
@@ -22,24 +23,32 @@ export interface Recebivel {
   tipo: TipoRecebivel;
   valorNominal: number;
   valorAberto: number;
+  dataEmissao: string;
   dataVencimento: string;
   status: StatusRecebivel;
   // Duplicata
-  numeroDuplicata?: string | null;
   numeroNotaFiscal?: string | null;
+  aceite?: boolean | null;
   sacado?: string | null;
   // Cheque
   banco?: string | null;
   agencia?: string | null;
+  conta?: string | null;
   numeroCheque?: string | null;
+  dataBomPara?: string | null;
   emitente?: string | null;
+  // Documentos anexados
+  documentoFrenteUrl?: string | null;
+  documentoVersoUrl?: string | null;
   cliente?: { id: string; nome: string };
+  createdAt: string;
+  updatedAt: string;
 }
 
 /** Referência curta usada nas listagens (coluna "Nº / Sacado", "Número"). */
 export function referenciaRecebivel(r: Recebivel): string {
   if (r.tipo === 'DUPLICATA') {
-    return r.numeroDuplicata ?? r.numeroNotaFiscal ?? r.id.slice(0, 8).toUpperCase();
+    return r.numeroNotaFiscal ?? r.id.slice(0, 8).toUpperCase();
   }
   return r.numeroCheque ?? r.id.slice(0, 8).toUpperCase();
 }

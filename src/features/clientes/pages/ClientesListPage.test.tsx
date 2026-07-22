@@ -18,16 +18,15 @@ const CLIENTES = [
     id: 'cli-1',
     tipoCliente: 'PESSOA_JURIDICA',
     status: 'ATIVO',
-    documento: '12.345.678/0001-90',
-    nomeFantasia: 'Fecal Distribuidora',
-    razaoSocial: 'Fecal Distribuidora Ltda.',
+    cpfCnpj: '12.345.678/0001-90',
+    nome: 'Fecal Distribuidora',
     enderecoId: 'end-1',
   },
   {
     id: 'cli-2',
     tipoCliente: 'PESSOA_FISICA',
     status: 'INATIVO',
-    documento: '987.654.321-00',
+    cpfCnpj: '987.654.321-00',
     nome: 'Mariana Souza Ferreira',
     enderecoId: 'end-2',
   },
@@ -75,13 +74,13 @@ describe('ClientesListPage', () => {
     });
   });
 
-  it('toggles a client status via PATCH /clientes/:id', async () => {
+  it('toggles a client status via PATCH /clientes/:id/inativar', async () => {
     renderPage();
     await screen.findByText('Fecal Distribuidora');
     await userEvent.click(screen.getAllByText('Inativar')[0]);
 
     await waitFor(() => {
-      expect(mockedPatch).toHaveBeenCalledWith('/clientes/cli-1', { status: 'INATIVO' });
+      expect(mockedPatch).toHaveBeenCalledWith('/clientes/cli-1/inativar');
     });
   });
 });

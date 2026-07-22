@@ -99,19 +99,20 @@ export function RecebiveisListPage() {
                 <Th>Vencimento</Th>
                 <Th align="right">Valor</Th>
                 <Th>Status</Th>
+                <Th align="right">Ações</Th>
               </tr>
             </thead>
             <tbody>
               {isLoading && (
                 <tr>
-                  <td colSpan={6} className="px-5 py-6 text-center text-[13px] text-muted">
+                  <td colSpan={7} className="px-5 py-6 text-center text-[13px] text-muted">
                     Carregando…
                   </td>
                 </tr>
               )}
               {!isLoading && data?.data.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-5 py-6 text-center text-[13px] text-muted">
+                  <td colSpan={7} className="px-5 py-6 text-center text-[13px] text-muted">
                     Nenhum recebível encontrado.
                   </td>
                 </tr>
@@ -145,6 +146,14 @@ export function RecebiveisListPage() {
                     </td>
                     <td className="px-5 py-3.5">
                       <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
+                    </td>
+                    <td className="px-5 py-3.5 text-right">
+                      <Link
+                        to={`/recebiveis/${r.id}`}
+                        className="rounded-control bg-[#EFF4F4] px-3 py-1.5 text-[12.5px] font-medium text-petroleo-interativo no-underline"
+                      >
+                        Ver detalhe
+                      </Link>
                     </td>
                   </tr>
                 );

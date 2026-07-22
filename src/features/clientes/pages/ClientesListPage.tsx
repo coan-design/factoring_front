@@ -135,7 +135,7 @@ export function ClientesListPage() {
                       {cliente.tipoCliente === 'PESSOA_JURIDICA' ? 'Jurídica' : 'Física'}
                     </td>
                     <td className="tabnum px-5 py-3.5 font-mono text-[13.5px] text-muted-foreground">
-                      {cliente.documento}
+                      {cliente.cpfCnpj}
                     </td>
                     <td className="px-5 py-3.5">
                       <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />

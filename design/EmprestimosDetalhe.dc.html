@@ -9,7 +9,8 @@
 <x-dc>
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
   <style>
     body { margin: 0; }
     .tabnum { font-variant-numeric: tabular-nums; }
@@ -31,7 +32,10 @@
           <dc-import name="StatusBadge" label="Ativo" tone="info" hint-size="80px,26px"></dc-import>
         </div>
       </div>
-      <button style="padding: 9px 16px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;">Editar contrato</button>
+      <div style="display: flex; gap: 0;">
+        <button style="padding: 9px 16px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;">Editar contrato</button>
+        <button style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit;">Incluir em negociação</button>
+      </div>
     </div>
 
     <div style="padding: 32px 40px;">
@@ -63,6 +67,12 @@
           <div><div style="font-size: 11.5px; color: #6B7473;">Nº de parcelas</div><div class="tabnum" style="font-size: 13.5px; margin-top: 3px; font-family: 'IBM Plex Mono', monospace;">12</div></div>
           <div><div style="font-size: 11.5px; color: #6B7473;">Parcelas pagas</div><div class="tabnum" style="font-size: 13.5px; margin-top: 3px; font-family: 'IBM Plex Mono', monospace;">6 de 12</div></div>
           <div><div style="font-size: 11.5px; color: #6B7473;">Próximo vencimento</div><div class="tabnum" style="font-size: 13.5px; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; color: #9A5B13; font-weight: 600;">25/07/2026</div></div>
+        </div>
+        <div style="height: 1px; background: #EEF0EF; margin: 20px 0 16px;"></div>
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">Contrato assinado</div>
+        <div style="display: flex; gap: 16px; align-items: flex-start;">
+          <image-slot id="emprestimo-contrato" style="width: 130px; height: 160px;" shape="rounded" radius="8" placeholder="Upload do PDF/foto do contrato"></image-slot>
+          <div style="font-size: 12.5px; color: #6B7473; line-height: 1.6; padding-top: 4px;">Arraste o contrato assinado (imagem ou PDF digitalizado) para arquivar junto ao empréstimo.</div>
         </div>
       </div>
 

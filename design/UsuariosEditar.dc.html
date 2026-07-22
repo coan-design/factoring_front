@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .tabnum { font-variant-numeric: tabular-nums; }
+    a { color: #1F6F72; }
+    a:hover { color: #123B3D; }
+    input { font-family: 'Public Sans', sans-serif; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; width: 100%; background: #F6F7F6; font-family: 'Public Sans', sans-serif; color: #171C1C;">
+
+  <dc-import name="Sidebar" active-item="usuarios" user-role="ADMIN" user-name="Renata Ávila" hint-size="236px,100%"></dc-import>
+
+  <div style="flex: 1; min-width: 0; overflow-y: auto;">
+
+    <div style="padding: 24px 40px; border-bottom: 1px solid #E2E6E5; background: white; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div style="font-size: 12px; color: #6B7473;"><a href="UsuariosListagem.dc.html" style="text-decoration: none;">Usuários</a> / Diego Martins</div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; margin-top: 2px;">Editar usuário</div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button style="padding: 9px 16px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;">Cancelar</button>
+        <button onClick="{{ handleSave }}" style="padding: 9px 16px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit;">Salvar alterações</button>
+      </div>
+    </div>
+
+    <div style="padding: 32px 40px; max-width: 640px;">
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 26px; margin-bottom: 20px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: #123B3D; clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF4F4; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #1F6F72; flex-shrink: 0;">DM</div>
+          <div>
+            <div style="font-size: 16px; font-weight: 600;">Diego Martins</div>
+            <div style="font-size: 12.5px; color: #6B7473; margin-top: 2px;">Último acesso: hoje, 08:47</div>
+          </div>
+        </div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Dados do usuário</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div style="grid-column: span 2;">
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">Nome completo</label>
+            <input value="{{ nome }}" onChange="{{ setNome }}" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ nomeBorder }}; font-size: 13.5px;" />
+            <sc-if value="{{ nomeError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">Nome é obrigatório.</div></sc-if>
+          </div>
+          <div style="grid-column: span 2;">
+            <label style="font-size: 12.5px; font-weight: 500; color: #4B5453;">E-mail corporativo</label>
+            <input value="{{ email }}" onChange="{{ setEmail }}" style="width: 100%; box-sizing: border-box; margin-top: 5px; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ emailBorder }}; font-size: 13.5px;" />
+            <sc-if value="{{ emailError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">Informe um e-mail corporativo válido.</div></sc-if>
+          </div>
+        </div>
+
+        <div style="height: 1px; background: #EEF0EF; margin-bottom: 24px;"></div>
+
+        <div style="font-size: 12px; font-weight: 600; color: #6B7473; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Perfil de acesso (RBAC)</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{ roles }}" as="r" hint-placeholder-count="3">
+            <div onClick="{{ r.onClick }}" style="display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 8px; border: 1px solid {{ r.border }}; background: {{ r.bg }}; cursor: pointer;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid {{ r.dotBorder }}; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;">
+                <sc-if value="{{ r.selected }}"><div style="width: 9px; height: 9px; border-radius: 50%; background: #1F6F72;"></div></sc-if>
+              </div>
+              <div>
+                <div style="font-size: 13.5px; font-weight: 600;">{{ r.label }}</div>
+                <div style="font-size: 12px; color: #6B7473; margin-top: 2px;">{{ r.description }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background: white; border: 1px solid #E2E6E5; border-radius: 10px; padding: 22px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: {{ pwFormMarginBottom }};">
+          <div>
+            <div style="font-size: 13.5px; font-weight: 600;">Redefinir senha</div>
+            <div style="font-size: 12px; color: #6B7473; margin-top: 2px;">Defina uma nova senha diretamente para este usuário.</div>
+          </div>
+          <sc-if value="{{ pwFormClosed }}">
+            <button onClick="{{ openPwForm }}" style="padding: 8px 14px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;">Definir nova senha</button>
+          </sc-if>
+        </div>
+        <sc-if value="{{ pwFormOpen }}">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <div style="font-size: 12px; font-weight: 500; color: #383D3C; margin-bottom: 6px;">Nova senha</div>
+              <input type="password" value="{{ novaSenha }}" onChange="{{ setNovaSenha }}" placeholder="Mínimo 8 caracteres" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ novaSenhaBorder }}; font-size: 13.5px; font-family: inherit;"/>
+              <sc-if value="{{ novaSenhaError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">A senha deve ter ao menos 8 caracteres.</div></sc-if>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 500; color: #383D3C; margin-bottom: 6px;">Confirmar nova senha</div>
+              <input type="password" value="{{ confirmSenha }}" onChange="{{ setConfirmSenha }}" placeholder="Repita a nova senha" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border-radius: 6px; border: 1px solid {{ confirmSenhaBorder }}; font-size: 13.5px; font-family: inherit;"/>
+              <sc-if value="{{ confirmSenhaError }}"><div style="font-size: 12px; color: #A8291F; margin-top: 5px;">As senhas não coincidem.</div></sc-if>
+            </div>
+            <sc-if value="{{ pwSaved }}">
+              <div style="font-size: 12.5px; color: #1F6F72; font-weight: 500;">Senha atualizada com sucesso.</div>
+            </sc-if>
+            <div style="display: flex; gap: 10px;">
+              <button onClick="{{ savePw }}" style="padding: 8px 14px; border-radius: 6px; border: none; background: #1F6F72; color: white; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;">Salvar nova senha</button>
+              <button onClick="{{ cancelPwForm }}" style="padding: 8px 14px; border-radius: 6px; border: 1px solid #DDE2E1; background: white; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;">Cancelar</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="background: white; border: 1px solid #F0DCB8; border-radius: 10px; padding: 22px; margin-top: 16px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-size: 13.5px; font-weight: 600; color: #8A5A15;">Inativar usuário</div>
+          <div style="font-size: 12px; color: #6B7473; margin-top: 2px;">O acesso ao sistema é bloqueado imediatamente.</div>
+        </div>
+        <button style="padding: 8px 14px; border-radius: 6px; border: 1px solid #F0DCB8; background: #FBF0DF; color: #8A5A15; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;">Inativar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { nome: 'Diego Martins', email: 'diego.martins@cedrofactoring.com.br', role: 'OPERADOR', submitted: false,
+    pwFormOpen: false, novaSenha: '', confirmSenha: '', pwSubmitted: false, pwSaved: false };
+
+  roleDefs = [
+    { key: 'ADMIN', label: 'ADMIN', description: 'Acesso completo: usuários, configurações e todas as operações.' },
+    { key: 'OPERADOR', label: 'OPERADOR', description: 'Cadastra clientes, recebíveis, empréstimos e conduz negociações.' },
+    { key: 'ANALISTA', label: 'ANALISTA', description: 'Consulta dados e acompanha negociações, sem editar cadastros.' },
+  ];
+
+  renderVals() {
+    const s = this.state;
+    const showErrors = s.submitted;
+    const nomeError = showErrors && !s.nome.trim();
+    const emailError = showErrors && (!s.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email));
+    const errBorder = '#D98E88', okBorder = '#DDE2E1';
+    const pwSubmitted = s.pwSubmitted;
+    const novaSenhaError = s.novaSenha.length < 8;
+    const confirmSenhaError = s.novaSenha !== s.confirmSenha;
+    const roles = this.roleDefs.map(r => ({
+      label: r.label,
+      description: r.description,
+      selected: r.key === s.role,
+      border: r.key === s.role ? '#1F6F72' : '#E2E6E5',
+      bg: r.key === s.role ? '#F6FAFA' : 'white',
+      dotBorder: r.key === s.role ? '#1F6F72' : '#C7CDCC',
+      onClick: () => this.setState({ role: r.key }),
+    }));
+    return {
+      nome: s.nome,
+      setNome: (e) => this.setState({ nome: e.target.value }),
+      nomeBorder: nomeError ? errBorder : okBorder,
+      nomeError,
+      email: s.email,
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      emailBorder: emailError ? errBorder : okBorder,
+      emailError,
+      roles,
+      handleSave: () => this.setState({ submitted: true }),
+      pwFormClosed: !s.pwFormOpen,
+      pwFormOpen: s.pwFormOpen,
+      pwFormMarginBottom: s.pwFormOpen ? '18px' : '0px',
+      openPwForm: () => this.setState({ pwFormOpen: true, novaSenha: '', confirmSenha: '', pwSubmitted: false, pwSaved: false }),
+      cancelPwForm: () => this.setState({ pwFormOpen: false }),
+      novaSenha: s.novaSenha,
+      setNovaSenha: (e) => this.setState({ novaSenha: e.target.value, pwSaved: false }),
+      novaSenhaBorder: pwSubmitted && novaSenhaError ? errBorder : okBorder,
+      novaSenhaError: pwSubmitted && novaSenhaError,
+      confirmSenha: s.confirmSenha,
+      setConfirmSenha: (e) => this.setState({ confirmSenha: e.target.value, pwSaved: false }),
+      confirmSenhaBorder: pwSubmitted && confirmSenhaError ? errBorder : okBorder,
+      confirmSenhaError: pwSubmitted && confirmSenhaError,
+      pwSaved: s.pwSaved,
+      savePw: () => {
+        this.setState({ pwSubmitted: true });
+        if (s.novaSenha.length >= 8 && s.novaSenha === s.confirmSenha) {
+          this.setState({ pwSaved: true, novaSenha: '', confirmSenha: '', pwSubmitted: false });
+        }
+      },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

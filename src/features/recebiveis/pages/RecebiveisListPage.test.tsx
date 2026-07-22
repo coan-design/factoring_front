@@ -33,7 +33,7 @@ const RECEBIVEIS = [
     valorAberto: 18400,
     dataVencimento: '2026-07-22T00:00:00.000Z',
     status: 'PENDENTE',
-    numeroDuplicata: 'DP-88213',
+    numeroNotaFiscal: 'DP-88213',
     sacado: 'Mercado Central SP',
     cliente: { id: 'cli-2', nome: 'Fecal Distribuidora Ltda.' },
   },

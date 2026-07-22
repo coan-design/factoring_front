@@ -17,19 +17,18 @@ const CLIENTE = {
   id: 'cli-1',
   tipoCliente: 'PESSOA_JURIDICA',
   status: 'ATIVO',
-  documento: '12.345.678/0001-90',
-  razaoSocial: 'Fecal Distribuidora Ltda.',
-  nomeFantasia: 'Fecal Distribuidora',
-  inscricaoEstadual: '143.286.720.118',
+  cpfCnpj: '12.345.678/0001-90',
+  nome: 'Fecal Distribuidora',
   telefone: '(11) 4002-8922',
   email: 'financeiro@fecal.com.br',
   enderecoId: 'end-1',
   endereco: {
     id: 'end-1',
-    logradouro: 'Av. Marquês de São Vicente, 2200',
+    logradouro: 'Av. Marquês de São Vicente',
+    numero: '2200',
     bairro: 'Barra Funda',
     cidade: 'São Paulo',
-    uf: 'SP',
+    estado: 'SP',
     cep: '01139-000',
   },
 };
@@ -43,7 +42,7 @@ const RECEBIVEIS = [
     valorAberto: 18400,
     dataVencimento: '2026-07-22T00:00:00.000Z',
     status: 'PENDENTE',
-    numeroDuplicata: 'DP-88213',
+    numeroNotaFiscal: 'DP-88213',
     sacado: 'Mercado Central SP',
   },
 ];
@@ -100,9 +99,9 @@ describe('ClienteDetailPage', () => {
     expect(await screen.findByText('3 negociações concluídas, 1 em andamento.')).toBeInTheDocument();
   });
 
-  it('toggles client status via PATCH /clientes/:id', async () => {
+  it('toggles client status via PATCH /clientes/:id/inativar', async () => {
     renderPage();
     await userEvent.click(await screen.findByText('Inativar cliente'));
-    expect(mockedPatch).toHaveBeenCalledWith('/clientes/cli-1', { status: 'INATIVO' });
+    expect(mockedPatch).toHaveBeenCalledWith('/clientes/cli-1/inativar');
   });
 });

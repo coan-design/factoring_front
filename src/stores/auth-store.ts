@@ -14,6 +14,7 @@ interface AuthState {
   accessToken: string | null;
   usuario: UsuarioLogado | null;
   setSession: (accessToken: string, usuario: UsuarioLogado) => void;
+  atualizarUsuario: (usuario: UsuarioLogado) => void;
   logout: () => void;
 }
 
@@ -27,6 +28,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       usuario: null,
       setSession: (accessToken, usuario) => set({ accessToken, usuario }),
+      atualizarUsuario: (usuario) => set({ usuario }),
       logout: () => set({ accessToken: null, usuario: null }),
     }),
     { name: 'factoring-auth' },

@@ -125,3 +125,10 @@ export const STATUS_CLIENTE_TONE: Record<string, { label: string; tone: StatusTo
   ATIVO: { label: 'Ativo', tone: 'success' },
   INATIVO: { label: 'Inativo', tone: 'neutral' },
 };
+
+/** Status do Empréstimo é derivado no frontend (ver statusDerivadoEmprestimo em types/emprestimo.ts) — não existe campo `status` no model. */
+export const STATUS_EMPRESTIMO_TONE: Record<string, { label: string; tone: StatusTone }> = {
+  ATIVO: { label: 'Ativo', tone: 'info' },
+  QUITADO: { label: 'Quitado', tone: 'success' },
+  EM_ATRASO: { label: 'Em atraso', tone: 'danger' },
+};
